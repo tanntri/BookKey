@@ -1,0 +1,41 @@
+{
+    "name": "@bookkey/backend",
+    "private": true,
+    "version": "0.0.0",
+    "description": "a backend to this app",
+    "types": "tsc --noEmit --project ./tsconfig.json",
+    "scripts": {
+        "dev": "ts-node-dev --watch ./.env --rs --exit-child ./src/index.ts",
+        "build": "rimraf ./dist && tsc --build ./tsconfig.json",
+        "start": "node ./dist/index.js",
+        "pmd": "prisma migrate dev",
+        "pgc": "prisma generate",
+        "prepare": "pnpm pgc"
+    },
+    "prisma": {
+        "schema": "./src/prisma/schema.prisma"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/jsonwebtoken": "^9.0.9",
+        "@types/node": "^22.13.9",
+        "@types/passport": "^1.0.17",
+        "@types/passport-jwt": "^4.0.1",
+        "prisma": "^6.5.0"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.5.0",
+        "@trpc/server": "^10.45.2",
+        "@types/lodash": "^4.17.16",
+        "cors": "^2.8.5",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "lodash": "^4.17.21",
+        "passport": "^0.7.0",
+        "passport-jwt": "^4.0.1",
+        "superjson": "^2.2.2",
+        "trpc-playground": "^1.0.4",
+        "zod": "^3.24.2"
+    }
+}
