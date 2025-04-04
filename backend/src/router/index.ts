@@ -5,7 +5,7 @@ import { createBookTrpcRoute } from "./books/createBook";
 import { signupTrpcRoute } from "./auth/signup";
 import { signinTrpcRoute } from "./auth/signin";
 import { getMeTrpcRoute } from "./auth/getMe";
-import { createReviewTrpcRoute } from "./createReview";
+import { createReviewTrpcRoute } from "./reviews/createReview";
 import { getReviewsTrpcRoute } from "./reviews/getReviews";
 import { updateReviewTrpcRoute } from "./reviews/updateReview";
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
