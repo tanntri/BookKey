@@ -1,4 +1,4 @@
-import { trpc } from '../../lib/trpc';
+import { trpc } from '../../../lib/trpc';
 import { zCreateReviewTrpcInput } from './input';
  
 export const createReviewTrpcRoute = trpc.procedure.input(
