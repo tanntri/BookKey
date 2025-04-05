@@ -10,6 +10,7 @@ datasource db {
 model Book {
     id String @id @default(uuid())
     isbn String @unique
+    serialNumber Int @unique @default(autoincrement())
     book String
     author String
     description String
