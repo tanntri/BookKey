@@ -3,6 +3,7 @@ import { trpc } from '../../../lib/trpc';
 import { zGetBooksTrpcInput } from './input';
 
 export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(async ({ctx, input}) => {
+        const normalizedSearch = input.search ? input.search.trim().replace(/[\s\n\t]/g, '_') : undefined;
         const books = await ctx.prisma.book.findMany({
             select: {
                 id: true,
@@ -12,6 +13,26 @@ export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(
                 description: true,
                 createdAt: true,
                 serialNumber: true
+            },
+            where: !input.search ? undefined : {
+                OR: [{
+                        book: {
+                            contains: normalizedSearch,
+                            mode: 'insensitive'
+                        }
+                    },
+                    {
+                        isbn: {
+                            search: normalizedSearch,
+                            mode: 'insensitive'
+                        }
+                    },
+                    {
+                        author: {
+                            contains: normalizedSearch,
+                            mode: 'insensitive'
+                        }
+                    }]
             },
             orderBy: [{
                 createdAt: 'desc'

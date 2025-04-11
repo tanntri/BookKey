@@ -11,5 +11,6 @@ export const getBookTrpcRoute = trpc.procedure.input(
                 isbn: input.isbn
             }
         })
+        console.log(book)
         return { book }
     })

@@ -8,18 +8,42 @@ export const getReviewsTrpcRoute = trpc.procedure.input(
     }))
 ).query(async ({ctx, input}) => {
         // get reviews and join with User table to get usernames
-        const reviews = await ctx.prisma.review.findMany({
+        const rawReviews = await ctx.prisma.review.findMany({
             where: {
+                blockedAt: null,
                 bookId: input.bookId
             },
             include: {
                 user: {
                     select: {
-                        username: true
+                        username: true,
                     },
                 },
+                reviewsLikes: {
+                    select: {
+                        id: true
+                    },
+                    where: {
+                        userId: ctx.me?.id
+                    }
+                },
+                _count: {
+                    select: {
+                        reviewsLikes: true
+                    }
+                }
             },
+            orderBy: [{
+                createdAt: 'desc'
+            }]
         })
 
+        // console.dir(rawReviews, {depth: null});
+        const reviews = rawReviews.map((review) => {
+            const isLikedByCurrUser = !!review.reviewsLikes.length;
+            return {...review, likesCount: review._count.reviewsLikes || 0, isLikedByCurrUser: isLikedByCurrUser}
+        })
+        // console.log('got here')
+        // console.dir(reviews, {depth: null});
         return { reviews }
     })
