@@ -11,6 +11,9 @@ import { updateReviewTrpcRoute } from "./reviews/updateReview";
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { updateProfileTrpcRoute } from "./auth/updateProfile";
 import { updatePasswordTrpcRoute } from "./auth/updatePassword";
+import { setReviewLikeTrpcRoute } from "./reviews/setReviewLike";
+import { getReviewTrpcRoute } from "./reviews/getReview";
+import { blockReviewTrpcRoute } from "./reviews/blockReview";
 
 export const trpcRouter = trpc.router({
     getBooks: getBooksTrpcRoute,
@@ -23,9 +26,12 @@ export const trpcRouter = trpc.router({
     getReviews: getReviewsTrpcRoute,
     editReview: updateReviewTrpcRoute,
     editProfile: updateProfileTrpcRoute,
-    updatePassword: updatePasswordTrpcRoute
+    updatePassword: updatePasswordTrpcRoute,
+    setReviewLike: setReviewLikeTrpcRoute,
+    getReview: getReviewTrpcRoute,
+    blockReview: blockReviewTrpcRoute
 });
 
 export type TrpcRouter = typeof trpcRouter;
-export type TrpcRouterInput = inferRouterInputs<TrpcRouter>
+export type TrpcRouterInput = inferRouterInputs<TrpcRouter>;
 export type TrpcRouterOutput = inferRouterOutputs<TrpcRouter>;
