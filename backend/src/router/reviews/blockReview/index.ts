@@ -1,3 +1,4 @@
+import { sendBlockedReviewEmail } from "../../../lib/emails";
 import { trpc } from "../../../lib/trpc";
 import { canBlockContent } from "../../../utils/can";
 import { zBlockReviewTrpcInput } from "./input";
@@ -11,6 +12,9 @@ export const blockReviewTrpcRoute = trpc.procedure.input(zBlockReviewTrpcInput).
         where: {
             blockedAt: null,
             id: reviewId
+        },
+        include: {
+            user: true,
         }
     })
     if (!review) {
@@ -24,6 +28,7 @@ export const blockReviewTrpcRoute = trpc.procedure.input(zBlockReviewTrpcInput).
             blockedAt: new Date()
         }
     })
+    void sendBlockedReviewEmail( { user: review.user, review } )
 
     return true;
 
