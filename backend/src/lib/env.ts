@@ -1,13 +1,14 @@
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
+import { zNonEmptyTrimmed, zNonEmptyTrimmedRequiredNonLocal } from "@bookkey/shared/src/zod"
 
 dotenv.config()
 
-const zNonEmptyTrimmed = z.string().trim().min(1);
-const zNonEmptyTrimmedRequiredNonLocal = zNonEmptyTrimmed.optional().refine(
-    (val) => process.env.HOST_ENV === 'local' || !!val,
-    'Required on local host'
-)
+// const zNonEmptyTrimmed = z.string().trim().min(1);
+// const zNonEmptyTrimmedRequiredNonLocal = zNonEmptyTrimmed.optional().refine(
+//     (val) => process.env.HOST_ENV === 'local' || !!val,
+//     'Required on local host'
+// )s
 
 const zEnv = z.object({
     PORT: zNonEmptyTrimmed,

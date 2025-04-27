@@ -1,6 +1,6 @@
-import { z } from "zod";
 import { zCreateReviewTrpcInput } from "../createReview/input";
+import { zStringOptional } from "@bookkey/shared/src/zod";
 
 export const zUpdateReviewTrpcInput = zCreateReviewTrpcInput.extend({
-    reviewId: z.string().min(1).optional()
+    reviewId: zStringOptional
 })

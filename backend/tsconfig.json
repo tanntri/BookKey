@@ -4,6 +4,10 @@
         "transpileOnly": true
     },
     "compilerOptions": {
+        "plugins": [{ "transform": "typescript-transform-paths" }],
+        "paths": {
+            "@bookkey/webapp/*": ["../webapp/*"]
+        },
         "outDir": "./dist",
         "allowJs": true,
         "allowSyntheticDefaultImports": true,

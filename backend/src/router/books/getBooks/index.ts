@@ -4,7 +4,7 @@ import { zGetBooksTrpcInput } from './input';
 
 export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(async ({ctx, input}) => {
         const normalizedSearch = input.search ? input.search.trim().replace(/[\s\n\t]/g, '_') : undefined;
-        const books = await ctx.prisma.book.findMany({
+        const rawBooks = await ctx.prisma.book.findMany({
             select: {
                 id: true,
                 isbn: true,
@@ -12,7 +12,20 @@ export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(
                 author: true,
                 description: true,
                 createdAt: true,
-                serialNumber: true
+                serialNumber: true,
+                bookLikes: {
+                    select: {
+                        id: true
+                    },
+                    where: {
+                        userId: ctx.me?.id
+                    }
+                },
+                _count: {
+                    select: {
+                        bookLikes: true
+                    }
+                }
             },
             where: !input.search ? undefined : {
                 OR: [{
@@ -41,6 +54,11 @@ export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(
             }],
             cursor: input.cursor ? {serialNumber: input.cursor} : undefined,
             take: input.limit + 1
+        })
+
+        const books = rawBooks.map((book) => {
+            const isLikedByCurrUser = !!book.bookLikes.length;
+            return {...book, likesCount: book._count.bookLikes || 0, isLikedByCurrUser: isLikedByCurrUser}
         })
 
         const nextBook = books.at(input.limit);
