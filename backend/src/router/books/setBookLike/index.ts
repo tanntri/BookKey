@@ -1,7 +1,7 @@
-import { trpc } from "../../../lib/trpc";
 import { zSetBookLikeTrpcInput } from "./input";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 
-export const setBookLikeTrpcRoute = trpc.procedure.input(zSetBookLikeTrpcInput).mutation(async ({ctx, input}) => {
+export const setBookLikeTrpcRoute = trpcLoggedProcedure.input(zSetBookLikeTrpcInput).mutation(async ({ctx, input}) => {
     const { bookIsbn, likedByCurrUser } = input;
     if (!ctx.me) {
         throw new Error('UNAUTHORIZED');

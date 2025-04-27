@@ -26,11 +26,12 @@
         "@types/node": "^22.13.9",
         "@types/passport": "^1.0.17",
         "@types/passport-jwt": "^4.0.1",
+        "@types/triple-beam": "^1.3.5",
         "prisma": "^6.5.0"
     },
     "dependencies": {
-        "@bookkey/webapp": "workspace:*",
         "@bookkey/shared": "workspace:*",
+        "@bookkey/webapp": "workspace:*",
         "@prisma/client": "^6.5.0",
         "@trpc/server": "^10.45.2",
         "@types/lodash": "^4.17.16",
@@ -46,9 +47,14 @@
         "mjml": "^4.15.3",
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.1",
+        "picocolors": "^1.1.1",
         "react-router-dom": "^7.3.0",
+        "serialize-error": "8.1.0",
         "superjson": "^2.2.2",
+        "triple-beam": "^1.4.1",
         "trpc-playground": "^1.0.4",
+        "winston": "^3.17.0",
+        "yaml": "^2.7.1",
         "zod": "^3.24.2"
     }
 }

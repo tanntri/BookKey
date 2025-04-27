@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { trpc } from '../../../lib/trpc';
+import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { z } from 'zod';
 
-export const getReviewsTrpcRoute = trpc.procedure.input(
+export const getReviewsTrpcRoute = trpcLoggedProcedure.input(
     (z.object({
         bookId: z.string()
     }))

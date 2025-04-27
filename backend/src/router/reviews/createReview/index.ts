@@ -1,7 +1,7 @@
-import { trpc } from '../../../lib/trpc';
+import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { zCreateReviewTrpcInput } from './input';
  
-export const createReviewTrpcRoute = trpc.procedure.input(
+export const createReviewTrpcRoute = trpcLoggedProcedure.input(
         (zCreateReviewTrpcInput)
     ).mutation(async ({ctx, input}) => {
         if (!ctx.me) {
@@ -20,11 +20,9 @@ export const createReviewTrpcRoute = trpc.procedure.input(
                 // userId: ctx.me.id
             }
         })
-        console.log('existingreviewforbook', existingReviewForBook)
         if (existingReviewForBook) {
             throw Error('Review for this book by this user already existed');
         }
-        console.log('got passed throw error')
         await ctx.prisma.review.create({
             data: {
                 ...input, userId: ctx.me.id

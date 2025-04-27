@@ -1,6 +1,7 @@
 import { CronJob } from 'cron';
 import { AppContext } from './ctx';
 import { notifyMonthlyMostLiked } from '../scripts/notifiyMonthlyMostLiked';
+import { logger } from './logger';
 
 export const applyCron = (ctx: AppContext) => {
     // notifyMonthlyMostLiked(ctx).catch((error) => {
@@ -10,7 +11,7 @@ export const applyCron = (ctx: AppContext) => {
         '0 10 1 * *',   // time
         () => {
             notifyMonthlyMostLiked(ctx).catch((error) => {
-                console.error(error);
+                logger.error('cron', error);
             });
         },
         null,   // onComplete
