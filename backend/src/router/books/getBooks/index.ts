@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { trpc } from '../../../lib/trpc';
+import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { zGetBooksTrpcInput } from './input';
 
-export const getBooksTrpcRoute = trpc.procedure.input(zGetBooksTrpcInput).query(async ({ctx, input}) => {
+export const getBooksTrpcRoute = trpcLoggedProcedure.input(zGetBooksTrpcInput).query(async ({ctx, input}) => {
         const normalizedSearch = input.search ? input.search.trim().replace(/[\s\n\t]/g, '_') : undefined;
         const rawBooks = await ctx.prisma.book.findMany({
             select: {

@@ -1,7 +1,7 @@
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zUpdateReviewTrpcInput } from "./input";
 
-export const updateReviewTrpcRoute = trpc.procedure.input(zUpdateReviewTrpcInput).mutation(async ({ ctx, input })  => {
+export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpcInput).mutation(async ({ ctx, input })  => {
     const { reviewId, ...reviewInput } = input;
     console.log('before checking for curr user')
     if (!ctx.me) {

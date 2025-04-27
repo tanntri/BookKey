@@ -3,12 +3,13 @@ import path from "path";
 // import { type Review, type User, type Book } from "@prisma/client";
 import { type Review, type User} from "@prisma/client";
 import fg from "fast-glob";
-import _ from "lodash";
+import _, { template } from "lodash";
 import { env } from "./env";
 import Handlebars from "handlebars";
 import { sendEmailWithBrevo } from "./brevo";
 import { getAllBooksRoute } from "@bookkey/webapp/src/lib/routes";
 import { type Book } from "@prisma/client";
+import { logger } from "./logger";
 
 const getHandlebarTemplates = _.memoize(async () => {        // use memoize to cache so we only call this once during run time
     const htmlPathsPattern = path.resolve(__dirname, "../emails/dist/**/*.html");
@@ -48,7 +49,7 @@ const sendEmail = async ({
         console.log(fullTemplateVariables.homeUrl)
         const html = await getEmailHtml(templateName, fullTemplateVariables)
         const { loggableResponse } = await sendEmailWithBrevo({ to, subject, html });
-        console.info('sendEmail', {
+        logger.info('email', 'sendEmail', {
             to,
             templateName,
             templateVariables,
@@ -56,7 +57,11 @@ const sendEmail = async ({
         })
         return { ok: true }
     } catch (error) {
-        console.error(error);
+        logger.error('email', error, {
+            to,
+            templateName,
+            templateVariables
+        });
         return { ok: false }
     }
 }

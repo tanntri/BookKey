@@ -1,9 +1,9 @@
 import { sendBlockedReviewEmail } from "../../../lib/emails";
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { canBlockContent } from "../../../utils/can";
 import { zBlockReviewTrpcInput } from "./input";
 
-export const blockReviewTrpcRoute = trpc.procedure.input(zBlockReviewTrpcInput).mutation(async ({ctx, input}) => {
+export const blockReviewTrpcRoute = trpcLoggedProcedure.input(zBlockReviewTrpcInput).mutation(async ({ctx, input}) => {
     const { reviewId } = input;
     if (!canBlockContent(ctx.me)) {
         throw new Error("PERMISSION_DENIED");

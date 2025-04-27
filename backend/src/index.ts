@@ -8,6 +8,7 @@ import { AppContext, createAppContext } from './lib/ctx';
 import { applyPassportToExpressApp } from './lib/passport';
 import { presetDB } from './scripts/presetDB';
 import { applyCron } from './lib/cron';
+import { logger } from './lib/logger';
 
 void (async () => {
     let ctx: AppContext | null = null;
@@ -29,10 +30,10 @@ void (async () => {
         applyCron(ctx);
         
         app.listen(env.PORT, () => {
-            console.info(`Listening at http://localhost:${env.PORT}`);
+            logger.info('express', `Listening at http://localhost:${env.PORT}`);
         })
     } catch (error) {
-        console.error(error);
+        logger.error('app', error);
         await ctx?.stop();
     }
 })()

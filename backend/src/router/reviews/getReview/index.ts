@@ -1,7 +1,7 @@
-import { trpc } from '../../../lib/trpc';
+import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { z } from 'zod';
 
-export const getReviewTrpcRoute = trpc.procedure.input(
+export const getReviewTrpcRoute = trpcLoggedProcedure.input(
         (z.object({
             id: z.string()
         }))
@@ -29,6 +29,5 @@ export const getReviewTrpcRoute = trpc.procedure.input(
         const isLikedByCurrUser = !!rawReview?.reviewsLikes.length;
         const likesCount = rawReview?._count.reviewsLikes || 0;
         const review = { ...rawReview, isLikedByCurrUser: isLikedByCurrUser, likesCount: likesCount }
-        console.log(review);
         return { review }
     })

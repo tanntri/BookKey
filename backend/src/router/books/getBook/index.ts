@@ -1,4 +1,4 @@
-import { trpc } from '../../../lib/trpc';
+import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { z } from 'zod';
 // import axios from 'axios';
 
@@ -7,7 +7,7 @@ import { z } from 'zod';
 //     return response;
 // }
 
-export const getBookTrpcRoute = trpc.procedure.input(
+export const getBookTrpcRoute = trpcLoggedProcedure.input(
         (z.object({
             isbn: z.string()
         }))

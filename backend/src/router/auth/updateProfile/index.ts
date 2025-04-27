@@ -1,9 +1,9 @@
 import { zUpdateProfileTrpcInput } from "./input";
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import _ from 'lodash';
 
 
-export const updateProfileTrpcRoute = trpc.procedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
+export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
     if (!ctx.me) {
         throw new Error("UNORTHORIZED");
     }
