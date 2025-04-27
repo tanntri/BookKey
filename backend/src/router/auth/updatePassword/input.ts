@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { zStringMin } from "@bookkey/shared/src/zod";
 
 export const zUpdatePasswordTrpcInput = z.object({
-    oldPassword: z.string().min(4),
-    newPassword: z.string().min(4)
+    oldPassword: zStringMin(4),
+    newPassword: zStringMin(4)
 })

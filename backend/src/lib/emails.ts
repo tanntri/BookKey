@@ -1,11 +1,14 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { type Review, type User, type Book } from "@prisma/client";
+// import { type Review, type User, type Book } from "@prisma/client";
+import { type Review, type User} from "@prisma/client";
 import fg from "fast-glob";
 import _ from "lodash";
 import { env } from "./env";
 import Handlebars from "handlebars";
 import { sendEmailWithBrevo } from "./brevo";
+import { getAllBooksRoute } from "@bookkey/webapp/src/lib/routes";
+import { type Book } from "@prisma/client";
 
 const getHandlebarTemplates = _.memoize(async () => {        // use memoize to cache so we only call this once during run time
     const htmlPathsPattern = path.resolve(__dirname, "../emails/dist/**/*.html");
@@ -40,7 +43,7 @@ const sendEmail = async ({
     try {
         const fullTemplateVariables = {
             ...templateVariables,
-            homeUrl: env.WEBAPP_URL
+            homeUrl: env.WEBAPP_URL || getAllBooksRoute({ abs: true })
         }
         console.log(fullTemplateVariables.homeUrl)
         const html = await getEmailHtml(templateName, fullTemplateVariables)
@@ -77,6 +80,17 @@ export const sendBlockedReviewEmail = async ({ user, review }:
         templateName: 'reviewBlocked',
         templateVariables: {
             book: review.bookId
+        }
+    })
+}
+
+export const sendMostLikedBooksEmail = async ({ user, books }: { user: Pick<User, 'email'>, books: Array<Pick<Book, 'book' | 'isbn'>> }) => {
+    return await sendEmail({
+        to: user.email,
+        subject: 'Monthly Popular Books are Here',
+        templateName: 'mostLikedBooks',
+        templateVariables: {
+            books: books.map((book) => ({ name: book.book, isbn: book.isbn }))
         }
     })
 }

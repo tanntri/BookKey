@@ -7,14 +7,14 @@
     "scripts": {
         "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
         "build-emails": "rimraf ./src/emails/dist && mkdir ./src/emails/dist && mjml ./src/emails/[!_]*.mjml -o ./src/emails/dist",
-        "copy-emails": "copyfiles -u 1 ./src/emails/dist/*.html ./dist",
+        "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
         "watch-emails": "mjml -w .src/emails/[!_]*.mjml -o ./src/emails/dist",
         "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",
         "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
-        "start": "node ./dist/index.js",
+        "start": "node ./dist/backend/src/index.js",
         "pmd": "prisma migrate dev",
         "pgc": "prisma generate",
-        "prepare": "pnpm pgc"
+        "prepare": "pnpm pgc && ts-patch install -s"
     },
     "prisma": {
         "schema": "./src/prisma/schema.prisma"
@@ -30,11 +30,13 @@
     },
     "dependencies": {
         "@bookkey/webapp": "workspace:*",
+        "@bookkey/shared": "workspace:*",
         "@prisma/client": "^6.5.0",
         "@trpc/server": "^10.45.2",
         "@types/lodash": "^4.17.16",
         "axios": "^1.8.4",
         "cors": "^2.8.5",
+        "cron": "^4.3.0",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
         "fast-glob": "^3.3.3",
@@ -44,6 +46,7 @@
         "mjml": "^4.15.3",
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.1",
+        "react-router-dom": "^7.3.0",
         "superjson": "^2.2.2",
         "trpc-playground": "^1.0.4",
         "zod": "^3.24.2"

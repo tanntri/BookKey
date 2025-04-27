@@ -14,6 +14,7 @@ import { updatePasswordTrpcRoute } from "./auth/updatePassword";
 import { setReviewLikeTrpcRoute } from "./reviews/setReviewLike";
 import { getReviewTrpcRoute } from "./reviews/getReview";
 import { blockReviewTrpcRoute } from "./reviews/blockReview";
+import { setBookLikeTrpcRoute } from "./books/setBookLike";
 
 export const trpcRouter = trpc.router({
     getBooks: getBooksTrpcRoute,
@@ -29,7 +30,8 @@ export const trpcRouter = trpc.router({
     updatePassword: updatePasswordTrpcRoute,
     setReviewLike: setReviewLikeTrpcRoute,
     getReview: getReviewTrpcRoute,
-    blockReview: blockReviewTrpcRoute
+    blockReview: blockReviewTrpcRoute,
+    setBookLike: setBookLikeTrpcRoute
 });
 
 export type TrpcRouter = typeof trpcRouter;

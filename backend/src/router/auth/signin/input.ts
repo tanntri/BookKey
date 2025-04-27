@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { zStringMin } from '@bookkey/shared/src/zod';
 
 export const zSignInTrpcInput = z.object({
-    username: z.string().min(4),
-    password: z.string().min(4 )
+    username: zStringMin(4),
+    password: zStringMin(4)
 })
