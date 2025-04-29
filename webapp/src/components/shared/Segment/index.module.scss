@@ -1,0 +1,26 @@
+@use '../../../../styles/mixins' as mixin;
+@use '../../../../styles/vars' as var;
+
+.segment {
+
+    h1.title {
+        @include mixin.h1;
+    }
+
+    h2.title {
+        @include mixin.h2;
+    }
+
+    .description {
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    .content {
+        margin-top: 12px;
+    }
+
+    & + .segment {
+        margin-top: 40px;
+    }
+}

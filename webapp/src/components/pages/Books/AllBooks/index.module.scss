@@ -1,0 +1,25 @@
+@use '../../../../../styles/_mixins.scss' as mixin;
+@use '../../../../../styles/_vars.scss' as var;
+
+.searchBar {
+    margin-bottom: 20px;
+}
+
+.books {
+    .book {
+        padding: 20px;
+        border: 1px solid var.$black;
+        border-radius: 10px;
+        & + .book {
+            margin-top: 20px;
+        }
+
+        .bookLink {
+            @include mixin.link;
+        }
+
+    }
+    .more {
+        margin-top: 15px;
+    }
+}
