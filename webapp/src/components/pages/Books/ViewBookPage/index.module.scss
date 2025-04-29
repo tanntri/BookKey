@@ -1,0 +1,23 @@
+@use '../../../../../styles/mixins' as mixin;
+@use '../../../../../styles/vars' as var;
+
+.created-at {
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.text {
+    font-size: 14px;
+
+    & > *:not(:first-child) {
+        margin-top: 10px;
+    }
+}
+
+.likes {
+    // margin-top: 20px;
+
+    .likeButton {
+        @include mixin.link;
+    }
+}

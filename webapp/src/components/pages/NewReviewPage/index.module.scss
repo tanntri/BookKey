@@ -1,0 +1,37 @@
+@use '../../../../styles/mixins' as mixin;
+@use '../../../../styles/vars' as var;
+
+.wholeReview {
+    margin-top: 20px;
+
+    .header {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .reviews {
+        margin-top: 20px;
+    
+        .review {
+            padding: 20px;
+            border: 1px solid var.$black;
+            border-radius: 10px;
+            & + .review {
+                margin-top: 20px;
+            }
+    
+            // .bookLink {
+            //     @include link;
+            // }
+    
+        }
+    }
+
+    .likes {
+        // margin-top: 20px;
+
+        .likeButton {
+            @include mixin.link;
+        }
+    }
+}
