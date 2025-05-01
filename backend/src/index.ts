@@ -28,6 +28,15 @@ void (async () => {
         await useTrpcInExpress(app, ctx, trpcRouter)
 
         applyCron(ctx);
+
+        app.use((error: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
+            logger.error('express', error);
+            if (res.headersSent) {
+                next(error);
+                return;
+            }
+            res.status(500).send('Internal Server Error');
+        })
         
         app.listen(env.PORT, () => {
             logger.info('express', `Listening at http://localhost:${env.PORT}`);

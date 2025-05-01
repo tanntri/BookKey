@@ -1,3 +1,4 @@
+import { ExpectedError } from '../../../lib/error';
 import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { zCreateReviewTrpcInput } from './input';
  
@@ -21,7 +22,7 @@ export const createReviewTrpcRoute = trpcLoggedProcedure.input(
             }
         })
         if (existingReviewForBook) {
-            throw Error('Review for this book by this user already existed');
+            throw new ExpectedError('Review for this book by this user already existed');
         }
         await ctx.prisma.review.create({
             data: {

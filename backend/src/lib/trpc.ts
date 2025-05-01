@@ -7,6 +7,7 @@ import SuperJSON from "superjson";
 import { expressHandler } from "trpc-playground/handlers/express"
 import { type ExpressRequest } from "../utils/types";
 import { logger } from "./logger";
+import { ExpectedError } from "./error";
 
 const getCreateTrpcContext = 
     (appContext: AppContext) => 
@@ -19,7 +20,22 @@ const getCreateTrpcContext =
 type TrpcContext = inferAsyncReturnType<ReturnType<typeof getCreateTrpcContext>>
 
 export const trpc = initTRPC.context<TrpcContext>().create({
-    transformer: SuperJSON
+    transformer: SuperJSON,
+    errorFormatter: ({shape, error}) => {
+        console.dir(shape, { depth: 10 });
+        const isExpected = error.cause instanceof ExpectedError;
+        return {
+            ...shape,
+            data: {
+                ...shape.data,
+                isExpected
+                // error: {
+                //     message: error.message,
+                //     stack: error.stack
+                // }
+            }
+        }
+    }
 });
 
 export const trpcLoggedProcedure = trpc.procedure.use(
