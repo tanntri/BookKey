@@ -1,6 +1,7 @@
 import { zUpdateProfileTrpcInput } from "./input";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import _ from 'lodash';
+import { ExpectedError } from "../../../lib/error";
 
 
 export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
@@ -17,7 +18,7 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTr
         })
         // In case of a user with this username already exists, don't let the user change it
         if (existedUser) {
-            throw Error("User with this username already exists")
+            throw new ExpectedError("User with this username already exists")
         }
     }
     const updatedMe = await ctx.prisma.user.update({

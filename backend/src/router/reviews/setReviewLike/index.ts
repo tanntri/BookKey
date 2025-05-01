@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zSetReviewLikeTrpcInput } from "./input";
 
@@ -12,7 +13,7 @@ export const setReviewLikeTrpcRoute = trpcLoggedProcedure.input(zSetReviewLikeTr
         }
     })
     if (!review) {
-        throw new Error("Not Found");
+        throw new ExpectedError("Not Found");
     }
     if (likedByCurrUser) {
         // Try to find the existence of the like of the review by current user. 

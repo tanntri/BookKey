@@ -6,6 +6,8 @@ import { EOL } from "os";
 import pc from "picocolors";
 import { MESSAGE } from "triple-beam";
 import * as yaml from "yaml";
+import debug from "debug";
+import { deepMap } from "../utils/deepMap";
 
 export const winstonLogger = winston.createLogger({
     level: 'debug',
@@ -35,7 +37,8 @@ export const winstonLogger = winston.createLogger({
                     ])
 
                     const stringifiedLogData = _.trim(
-                        yaml.stringify(visibleMessageTags, (k, v) => (_.isFunction(v) ? 'Function' : v))
+                        /* tslint:disable:no-unused-variable */
+                        yaml.stringify(visibleMessageTags, (_k, v) => (_.isFunction(v) ? 'Function' : v))
                     )
 
                     const resultLogData = {
@@ -52,11 +55,27 @@ export const winstonLogger = winston.createLogger({
     ]
 })
 
+type Meta = Record<string, any> | undefined
+const classifyMetadata = (metadata: Meta): Meta => {
+    return deepMap(metadata, ({ key, value }) => {
+        if (['email', 'password', 'newPassword', 'oldPassword', 'token'].includes(key)) {
+            return '***'
+        }
+        return value
+    })
+}
+
 export const logger = {
-    info: (logType: string, message: string, meta?: Record<string, any>) => {
-        winstonLogger.info(message, { logType, ...meta })
+    info: (logType: string, message: string, meta?: Meta) => {
+        if (!debug.enabled(`bookkey:${logType}`)) {
+            return;
+        }
+        winstonLogger.info(message, { logType, ...classifyMetadata(meta) })
     },
-    error: (logType: string, error: any, meta?: Record<string, any>) => {
+    error: (logType: string, error: any, meta?: Meta) => {
+        if (!debug.enabled(`bookkey:${logType}`)) {
+            return;
+        }
         const serializedLoggerError = serializeError(error);
         winstonLogger.error(serializedLoggerError.message || 'Unknown Error', {
             logType,

@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zUpdateReviewTrpcInput } from "./input";
 
@@ -5,7 +6,7 @@ export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpc
     const { reviewId, ...reviewInput } = input;
     console.log('before checking for curr user')
     if (!ctx.me) {
-        throw Error('Unauthorized');
+        throw Error('UNAUTHORIZED');
     }
     // check if book exists
     const review = await ctx.prisma.review.findUnique({
@@ -17,7 +18,7 @@ export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpc
 
     if (!review) {
         console.log('no review')
-        throw Error('Not Found');
+        throw new ExpectedError('Not Found');
     }
     if (ctx.me.id !== input.userId) {
         throw Error('Unauthorized')

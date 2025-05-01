@@ -3,6 +3,7 @@ import { getPasswordHash } from "../../../utils/getPasswordHash";
 import { signJWT } from "../../../utils/signJWT";
 import { sendRegistrationEmail } from "../../../lib/emails";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
+import { ExpectedError } from "../../../lib/error";
 
 export const signupTrpcRoute = trpcLoggedProcedure.input((zSignUpTrpcInput)).mutation(async ({ctx, input}) => {
     const existingUsername = await ctx.prisma.user.findUnique({
@@ -11,7 +12,7 @@ export const signupTrpcRoute = trpcLoggedProcedure.input((zSignUpTrpcInput)).mut
         }
     })
     if (existingUsername) {
-        throw Error('User with this username already exists');
+        throw new ExpectedError('User with this username already exists');
     }
     const existingEmail = await ctx.prisma.user.findUnique({
         where: {
@@ -19,7 +20,7 @@ export const signupTrpcRoute = trpcLoggedProcedure.input((zSignUpTrpcInput)).mut
         }
     })
     if (existingEmail) {
-        throw Error('User with this email already exists');
+        throw new ExpectedError('User with this email already exists');
     }
     const user = await ctx.prisma.user.create({
         data: {

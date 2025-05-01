@@ -3,7 +3,7 @@ import path from "path";
 // import { type Review, type User, type Book } from "@prisma/client";
 import { type Review, type User} from "@prisma/client";
 import fg from "fast-glob";
-import _, { template } from "lodash";
+import _ from "lodash";
 import { env } from "./env";
 import Handlebars from "handlebars";
 import { sendEmailWithBrevo } from "./brevo";

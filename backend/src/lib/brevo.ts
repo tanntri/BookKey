@@ -30,7 +30,6 @@ const makeRequestToBrevo = async ({
         },
         data
     })
-    console.log(response);
     return {
         originalResponse: response,
         loggableResponse: _.pick(response, ['status', 'statusText', 'data'])

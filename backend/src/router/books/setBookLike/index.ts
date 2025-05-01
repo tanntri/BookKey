@@ -1,10 +1,11 @@
 import { zSetBookLikeTrpcInput } from "./input";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
+import { ExpectedError } from "../../../lib/error";
 
 export const setBookLikeTrpcRoute = trpcLoggedProcedure.input(zSetBookLikeTrpcInput).mutation(async ({ctx, input}) => {
     const { bookIsbn, likedByCurrUser } = input;
     if (!ctx.me) {
-        throw new Error('UNAUTHORIZED');
+        throw new ExpectedError('UNAUTHORIZED');
     }
     const book = await ctx.prisma.book.findUnique({
         where: {
@@ -12,7 +13,7 @@ export const setBookLikeTrpcRoute = trpcLoggedProcedure.input(zSetBookLikeTrpcIn
         }
     })
     if (!book) {
-        throw new Error("Not Found");
+        throw new ExpectedError("Not Found");
     }
     if (likedByCurrUser) {
         // Try to find the existence of the like of the book by current user. 
