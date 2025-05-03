@@ -6,7 +6,8 @@
     "compilerOptions": {
         "plugins": [{ "transform": "typescript-transform-paths" }],
         "paths": {
-            "@bookkey/webapp/*": ["../webapp/*"]
+            "@bookkey/webapp/*": ["../webapp/*"],
+            "@bookkey/shared/*": ["../shared/*"]
         },
         "outDir": "./dist",
         "allowJs": true,
@@ -21,6 +22,7 @@
         "skipLibCheck": true,
         "strict": true,
         "sourceMap": true,
+        "sourceRoot": "/",
         "resolveJsonModule": true,
         "inlineSources": true,
         "isolatedModules": false,

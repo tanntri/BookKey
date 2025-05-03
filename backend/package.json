@@ -6,11 +6,15 @@
     "types": "tsc --noEmit --project ./tsconfig.json",
     "scripts": {
         "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
+        "test": "jest",
         "build-emails": "rimraf ./src/emails/dist && mkdir ./src/emails/dist && mjml ./src/emails/[!_]*.mjml -o ./src/emails/dist",
         "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
         "watch-emails": "mjml -w .src/emails/[!_]*.mjml -o ./src/emails/dist",
         "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",
         "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
+        "sentry-release": "dotenv -- bash -c 'sentry-cli releases new ${SOURCE_VERSION} --finalize --org bookkey-0ca --project bookkey-backend --auth-token ${SENTRY_AUTH_TOKEN}'",
+        "sentry-sourcemaps": "dotenv -- bash -c 'sentry-cli releases files ${SOURCE_VERSION} upload-sourcemaps ./dist --org bookkey-0ca --project bookkey-backend'",
+        "sentry": "pnpm sentry-release && pnpm sentry-sourcemaps",
         "start": "node ./dist/backend/src/index.js",
         "pmd": "prisma migrate dev",
         "pgc": "prisma generate",
@@ -20,6 +24,7 @@
         "schema": "./src/prisma/schema.prisma"
     },
     "devDependencies": {
+        "@sentry/cli": "^2.43.1",
         "@types/cors": "^2.8.17",
         "@types/debug": "^4.1.12",
         "@types/express": "^5.0.0",
@@ -28,12 +33,15 @@
         "@types/passport": "^1.0.17",
         "@types/passport-jwt": "^4.0.1",
         "@types/triple-beam": "^1.3.5",
+        "dotenv-cli": "^8.0.0",
         "prisma": "^6.5.0"
     },
     "dependencies": {
         "@bookkey/shared": "workspace:*",
         "@bookkey/webapp": "workspace:*",
         "@prisma/client": "^6.5.0",
+        "@sentry/integrations": "^7.114.0",
+        "@sentry/node": "^9.15.0",
         "@trpc/server": "^10.45.2",
         "@types/lodash": "^4.17.16",
         "axios": "^1.8.4",

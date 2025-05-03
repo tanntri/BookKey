@@ -21,7 +21,9 @@ const zEnv = z.object({
     BREVO_API_KEY: zNonEmptyTrimmedRequiredNonLocal,
     FROM_EMAIL_NAME: zNonEmptyTrimmed,
     FROM_EMAIL_ADDRESS: zNonEmptyTrimmed,
-    DEBUG: zNonEmptyTrimmed
+    DEBUG: zNonEmptyTrimmed,
+    BACKEND_SENTRY_DSN: zNonEmptyTrimmedRequiredNonLocal,
+    SOURCE_VERSION: zNonEmptyTrimmedRequiredNonLocal
 })
 
 export const env = zEnv.parse(process.env);

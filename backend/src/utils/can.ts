@@ -3,7 +3,7 @@ import type { Review, User, Permission } from "@prisma/client"
 type MaybeUser = Pick<User, 'permissions' | 'id'> | null;
 type MaybeReview = Pick<Review, 'userId'> | null;
 
-const hasPermission = (user: MaybeUser, permissions: Permission) => {
+export const hasPermission = (user: MaybeUser, permissions: Permission) => {
     return user?.permissions.includes(permissions) || user?.permissions.includes('ALL') || false; 
 }
 
