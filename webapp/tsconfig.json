@@ -7,4 +7,7 @@
   "include": [
     "svg.d.ts"
   ],
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  }
 }

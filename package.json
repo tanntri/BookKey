@@ -7,12 +7,16 @@
         "w": "pnpm --filter @bookkey/webapp",
         "s": "pnpm --filter @bookkey/shared",
         "dev": "pnpm -r --parallel dev",
+        "test": "pnpm -r test",
         "types": "concurrently 'pnpm b types' 'pnpm w types'"
     },
     "devDependencies": {
+        "@types/jest": "^29.5.14",
         "concurrently": "^9.1.2",
         "copyfiles": "^2.4.1",
+        "jest": "^29.7.0",
         "rimraf": "^6.0.1",
+        "ts-jest": "^29.3.2",
         "ts-node": "^10.9.2",
         "ts-node-dev": "^2.0.0",
         "ts-patch": "^3.3.0",

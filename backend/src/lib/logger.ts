@@ -8,6 +8,9 @@ import { MESSAGE } from "triple-beam";
 import * as yaml from "yaml";
 import debug from "debug";
 import { deepMap } from "../utils/deepMap";
+import { ExpectedError } from "./error";
+import { TRPCError } from "@trpc/server";
+import { sentryCaptureException } from "./sentry";
 
 export const winstonLogger = winston.createLogger({
     level: 'debug',
@@ -55,8 +58,8 @@ export const winstonLogger = winston.createLogger({
     ]
 })
 
-type Meta = Record<string, any> | undefined
-const classifyMetadata = (metadata: Meta): Meta => {
+export type LoggerMeta = Record<string, any> | undefined
+const classifyMetadata = (metadata: LoggerMeta): LoggerMeta => {
     return deepMap(metadata, ({ key, value }) => {
         if (['email', 'password', 'newPassword', 'oldPassword', 'token'].includes(key)) {
             return '***'
@@ -66,13 +69,19 @@ const classifyMetadata = (metadata: Meta): Meta => {
 }
 
 export const logger = {
-    info: (logType: string, message: string, meta?: Meta) => {
+    info: (logType: string, message: string, meta?: LoggerMeta) => {
         if (!debug.enabled(`bookkey:${logType}`)) {
             return;
         }
         winstonLogger.info(message, { logType, ...classifyMetadata(meta) })
     },
-    error: (logType: string, error: any, meta?: Meta) => {
+    error: (logType: string, error: any, meta?: LoggerMeta) => {
+        const isNativeExpectedError = error instanceof ExpectedError;
+        const isTrpcExpectedError = error instanceof TRPCError && error.cause instanceof ExpectedError;
+        const classifiedMetaData = classifyMetadata(meta);
+        if (!isNativeExpectedError && !isTrpcExpectedError) {
+            sentryCaptureException(error, classifiedMetaData);
+        }
         if (!debug.enabled(`bookkey:${logType}`)) {
             return;
         }
@@ -81,7 +90,7 @@ export const logger = {
             logType,
             error,
             errorStack: serializedLoggerError.stack,
-            ...meta
+            ...classifiedMetaData
         })
     }
 }
