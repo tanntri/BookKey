@@ -3,5 +3,5 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     passWithNoTests: true,
-    verbose: true
+    verbose: true,
 }
