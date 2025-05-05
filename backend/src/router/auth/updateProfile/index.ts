@@ -2,6 +2,7 @@ import { zUpdateProfileTrpcInput } from "./input";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import _ from 'lodash';
 import { ExpectedError } from "../../../lib/error";
+import { pick } from "@bookkey/shared/src/pick";
 
 
 export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
@@ -28,5 +29,5 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTr
         data: input
     })
     ctx.me = updatedMe;
-    return _.pick(ctx.me, ['id', 'usernane']);
+    return pick(ctx.me, ['id', 'username']);
 })
