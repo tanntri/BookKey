@@ -13,6 +13,7 @@ import { getPasswordHash } from "../utils/getPasswordHash";
 import { type ExpressRequest } from "../utils/types";
 import { initTRPC } from "@trpc/server";
 import { env } from "../lib/env";
+import { omit } from "@bookkey/shared/src/omit";
 
 if (env.NODE_ENV !== 'test') {
     throw new Error('Only run integration tests when NODE_ENV=test');
@@ -39,7 +40,7 @@ export const createUser = async ({ user = {}, number = 1 }: { user?: Partial<Use
             username: `user${number}`,
             email: `user${number}@example.com`,
             password: getPasswordHash(user.password || '1234'),
-            ..._.omit(user, ['password'])
+            ...omit(user, ['password'])
         }
     })
 }

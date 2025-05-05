@@ -5,7 +5,7 @@
     "scripts": {
         "b": "pnpm --filter @bookkey/backend",
         "w": "pnpm --filter @bookkey/webapp",
-        "s": "pnpm --filter @bookkey/shared",
+        "sh": "pnpm --filter @bookkey/shared",
         "dev": "pnpm -r --parallel dev",
         "test": "pnpm -r test",
         "types": "concurrently 'pnpm b types' 'pnpm w types'"
