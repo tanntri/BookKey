@@ -9,10 +9,12 @@ import { applyPassportToExpressApp } from './lib/passport';
 import { presetDB } from './scripts/presetDB';
 import { applyCron } from './lib/cron';
 import { logger } from './lib/logger';
+import { initSentry } from './lib/sentry';
 
 void (async () => {
     let ctx: AppContext | null = null;
     try {
+        initSentry();
         ctx = createAppContext();
         await presetDB(ctx);
         const app = express();

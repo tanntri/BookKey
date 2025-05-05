@@ -4,12 +4,11 @@ import path from "path";
 import { type Review, type User} from "@prisma/client";
 import fg from "fast-glob";
 import _ from "lodash";
-import { env } from "./env";
+import { env } from "../env";
 import Handlebars from "handlebars";
-import { sendEmailWithBrevo } from "./brevo";
+import { sendEmailWithBrevo } from "../brevo";
 import { getAllBooksRoute } from "@bookkey/webapp/src/lib/routes";
-import { type Book } from "@prisma/client";
-import { logger } from "./logger";
+import { logger } from "../logger";
 
 const getHandlebarTemplates = _.memoize(async () => {        // use memoize to cache so we only call this once during run time
     const htmlPathsPattern = path.resolve(__dirname, "../emails/dist/**/*.html");
@@ -30,7 +29,7 @@ const getEmailHtml = async (templateName: string, templateVariables: Record<stri
     return html;
 }
 
-const sendEmail = async ({
+export const sendEmail = async ({
     to,
     subject,
     templateName,
@@ -65,38 +64,3 @@ const sendEmail = async ({
         return { ok: false }
     }
 }
-
-export const sendRegistrationEmail = async ({ user }: { user: Pick<User, 'username' | 'email'> }) => {
-    return await sendEmail({
-        to: user.email,
-        subject: 'Thanks for Registration!',
-        templateName: 'register',
-        templateVariables: {
-            username: user.username
-        }
-    })
-}
-
-export const sendBlockedReviewEmail = async ({ user, review }: 
-    { user: Pick<User, 'username' | 'email'>;review: Review }) => {
-    return await sendEmail({
-        to: user.email,
-        subject: 'Your Review is Blocked',
-        templateName: 'reviewBlocked',
-        templateVariables: {
-            book: review.bookId
-        }
-    })
-}
-
-export const sendMostLikedBooksEmail = async ({ user, books }: { user: Pick<User, 'email'>, books: Array<Pick<Book, 'book' | 'isbn'>> }) => {
-    return await sendEmail({
-        to: user.email,
-        subject: 'Monthly Popular Books are Here',
-        templateName: 'mostLikedBooks',
-        templateVariables: {
-            books: books.map((book) => ({ name: book.book, isbn: book.isbn }))
-        }
-    })
-}
-
