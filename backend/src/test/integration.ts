@@ -1,3 +1,8 @@
+// TODO: Add tests to email sending
+
+import "../lib/sentry.mock";
+import "../lib/emails/utils.mock";
+import "../lib/brevo.mock";
 import { type Review, type User } from "@prisma/client";
 import _ from "lodash";
 import { AppContext, createAppContext } from "../lib/ctx";
@@ -7,6 +12,11 @@ import { deepMap } from "../utils/deepMap";
 import { getPasswordHash } from "../utils/getPasswordHash";
 import { type ExpressRequest } from "../utils/types";
 import { initTRPC } from "@trpc/server";
+import { env } from "../lib/env";
+
+if (env.NODE_ENV !== 'test') {
+    throw new Error('Only run integration tests when NODE_ENV=test');
+}
 
 export const appContext = createAppContext();
 
@@ -21,10 +31,6 @@ beforeEach(async () => {
 export const getTrpcCaller = (user?: User) => {
     const req = { user } as ExpressRequest;
     return trpcRouter.createCaller(getTrpcContext({ appContext, req }));
-}
-
-export const withoutNoize = (input: any): any => {
-
 }
 
 export const createUser = async ({ user = {}, number = 1 }: { user?: Partial<User>; number?: number }) => {
