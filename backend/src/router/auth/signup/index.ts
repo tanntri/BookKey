@@ -32,5 +32,5 @@ export const signupTrpcRoute = trpcLoggedProcedure.input((zSignUpTrpcInput)).mut
     // send registration email
     void sendRegistrationEmail({ user });
     const token = signJWT(user.id)
-    return { token };
+    return { token, userId: user.id };
 })
