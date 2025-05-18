@@ -15,6 +15,7 @@ import { setReviewLikeTrpcRoute } from "./reviews/setReviewLike";
 import { getReviewTrpcRoute } from "./reviews/getReview";
 import { blockReviewTrpcRoute } from "./reviews/blockReview";
 import { setBookLikeTrpcRoute } from "./books/setBookLike";
+import { prepareCloudinaryUploadTrpcRoute } from "./upload/preCloudinaryUpload";
 
 export const trpcRouter = trpc.router({
     getBooks: getBooksTrpcRoute,
@@ -31,7 +32,8 @@ export const trpcRouter = trpc.router({
     setReviewLike: setReviewLikeTrpcRoute,
     getReview: getReviewTrpcRoute,
     blockReview: blockReviewTrpcRoute,
-    setBookLike: setBookLikeTrpcRoute
+    setBookLike: setBookLikeTrpcRoute,
+    prepareCloudinaryUpload: prepareCloudinaryUploadTrpcRoute
 });
 
 export type TrpcRouter = typeof trpcRouter;

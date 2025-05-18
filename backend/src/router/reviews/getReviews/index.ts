@@ -17,6 +17,7 @@ export const getReviewsTrpcRoute = trpcLoggedProcedure.input(
                 user: {
                     select: {
                         username: true,
+                        avatar: true
                     },
                 },
                 reviewsLikes: {

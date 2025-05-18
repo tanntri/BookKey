@@ -23,5 +23,8 @@
         "ts-patch": "^3.3.0",
         "typescript": "^5.8.2",
         "typescript-transform-paths": "^3.5.5"
+    },
+    "dependencies": {
+        "dotenv-cli": "^8.0.0"
     }
 }
