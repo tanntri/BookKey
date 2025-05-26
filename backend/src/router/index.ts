@@ -16,6 +16,13 @@ import { getReviewTrpcRoute } from "./reviews/getReview";
 import { blockReviewTrpcRoute } from "./reviews/blockReview";
 import { setBookLikeTrpcRoute } from "./books/setBookLike";
 import { prepareCloudinaryUploadTrpcRoute } from "./upload/preCloudinaryUpload";
+import { setBookmarkTrpcRoute } from "./books/setBookmarks";
+import { getBookmarksTrpcRoute } from "./books/getBookmarks";
+import { setBookReadTrpcRoute } from "./books/setBookRead";
+import { getBooksReadTrpcRoute } from "./books/getBooksRead";
+import { getUserProfileTrpcRoute } from "./auth/getUserProfileData";
+import { setLibraryTrpcRoute } from "./books/setLibrary";
+import { getLibraryTrpcRoute } from "./books/getLibrary";
 
 export const trpcRouter = trpc.router({
     getBooks: getBooksTrpcRoute,
@@ -33,7 +40,14 @@ export const trpcRouter = trpc.router({
     getReview: getReviewTrpcRoute,
     blockReview: blockReviewTrpcRoute,
     setBookLike: setBookLikeTrpcRoute,
-    prepareCloudinaryUpload: prepareCloudinaryUploadTrpcRoute
+    prepareCloudinaryUpload: prepareCloudinaryUploadTrpcRoute,
+    setBookmark: setBookmarkTrpcRoute,
+    getBookmarks: getBookmarksTrpcRoute,
+    setBookRead: setBookReadTrpcRoute,
+    getBooksRead: getBooksReadTrpcRoute,
+    getUserProfile: getUserProfileTrpcRoute,
+    setLibrary: setLibraryTrpcRoute,
+    getLibrary: getLibraryTrpcRoute
 });
 
 export type TrpcRouter = typeof trpcRouter;
