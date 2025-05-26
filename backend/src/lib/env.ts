@@ -29,7 +29,7 @@ if (envFilePath) {
 const zEnv = z.object({
     NODE_ENV: z.enum(['development', 'production', 'test', 'local']),
     PORT: zNonEmptyTrimmed,
-    HOST_ENV: z.enum(['local']),
+    HOST_ENV: z.enum(['local', 'production']),
     DATABASE_URL: zNonEmptyTrimmed.refine((val) => {
         if (process.env.NODE_ENV !== 'test') {
             return true
@@ -51,7 +51,10 @@ const zEnv = z.object({
         }
     }, 'Required on non-local'),
     BACKEND_SENTRY_DSN: zNonEmptyTrimmedRequiredNonLocal,
-    SOURCE_VERSION: zNonEmptyTrimmedRequiredNonLocal
+    SOURCE_VERSION: zNonEmptyTrimmedRequiredNonLocal,
+    CLOUDINARY_API_KEY: zNonEmptyTrimmedRequiredNonLocal,
+    CLOUDINARY_API_SECRET: zNonEmptyTrimmedRequiredNonLocal,
+    CLOUDINARY_CLOUD_NAME: zNonEmptyTrimmed
 })
 
 export const env = zEnv.parse(process.env);
