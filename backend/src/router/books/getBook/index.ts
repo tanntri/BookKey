@@ -1,48 +1,48 @@
 import { trpcLoggedProcedure } from '../../../lib/trpc';
 import { z } from 'zod';
-// import axios from 'axios';
-
-// const getBookCat = async (category: string) => {
-//     const response = await axios.get(`https://openlibrary.org/subjects/${category}.json?limit=4`);
-//     return response;
-// }
+import axios from 'axios';
+import { getAuthorNames } from '../../../utils/utils';
 
 export const getBookTrpcRoute = trpcLoggedProcedure.input(
         (z.object({
-            isbn: z.string()
+            olid: z.string()
         }))
     ).query(async ({ctx, input}) => {
-        const rawBook = await ctx.prisma.book.findUnique({
+        const { data } = await axios.get(`https://openlibrary.org/works/${input.olid}.json`) 
+        const authors = data.authors;
+        const bookmark = ctx.me ? await ctx.prisma.bookmark.findUnique({
             where: {
-                isbn: input.isbn
-            },
-            include: {
-                bookLikes: {
-                    select: {
-                        id: true,
-                        bookIsbn: true
-                    },
-                    where: {
-                        userId: ctx.me?.id
-                    }
-                },
-                _count: {
-                    select: {
-                        bookLikes: true
-                    }
+                bookId_userId: {
+                    bookId: input.olid,
+                    userId: ctx.me?.id
                 }
             }
-        })
-        // getBookCat('history')
-        //     .then(res => {
-        //         console.log(res.data.works)
-        //     })
-        //     .catch(error => {
-        //         console.error(error)
-        //     })
-        // console.log(book)
-        const isLikedByCurrUser = !!rawBook?.bookLikes.length;
-        const likesCount = rawBook?._count.bookLikes || 0;
-        const book = { ...rawBook, isLikedByCurrUser: isLikedByCurrUser, likesCount: likesCount }
-        return { book }
+        }) : undefined;
+        const bookread = ctx.me ? await ctx.prisma.bookRead.findUnique({
+            where: {
+                bookId_userId: {
+                    bookId: input.olid,
+                    userId: ctx.me?.id
+                }
+            }
+        }) : undefined;
+        const bookPossessed = ctx.me ? await ctx.prisma.library.findUnique({
+            where: {
+                bookId_userId: {
+                    bookId: input.olid,
+                    userId: ctx.me?.id
+                }
+            }
+        }) : undefined
+        const bookData = {
+            id: input.olid,
+            title: data.title,
+            description: data.description,
+            author: await getAuthorNames(authors),
+            cover: data.covers ? data.covers[0].toString() : undefined,
+            savedByCurrUser: !!bookmark,
+            readByCurrUser: !!bookread,
+            possessedByCurrUser: !!bookPossessed
+        }
+        return bookData;
     })
