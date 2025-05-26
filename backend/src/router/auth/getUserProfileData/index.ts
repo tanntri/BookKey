@@ -1,50 +1,7 @@
 import { z } from "zod";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
-import axios from "axios";
 import { AppContext } from "../../../lib/ctx";
-import { getBooksInfo } from "../../../utils/utils";
-
-interface BookResponse {
-    description: {
-      type: string;
-      value: string;
-    };
-    links: Record<string, any>[];
-    title: string;
-    dewey_number: string[];
-    covers: number[];
-    subject_places: string[];
-    first_publish_date: string;
-    subject_people: string[];
-    key: string;
-    authors: Record<string, any>[];
-    subject_times: string[];
-    type: {
-      key: string;
-    };
-    subjects: string[];
-    lc_classifications: string[];
-    latest_revision: number;
-    revision: number;
-    created: {
-      type: string;
-      value: string;
-    };
-    last_modified: {
-      type: string;
-      value: string;
-    };
-}
-
-
-const getBooksSomethingByUser = async (bookIds: string[]) => {
-    const booksSomething = await Promise.all(bookIds.map(async (bookId) => {
-        const url = `https://openlibrary.org/books/${bookId}.json`
-        const { data } = await axios.get(url);
-        return data;
-    }))
-    return booksSomething;
-}
+import { getBooksInfo, getBooksSomethingByUser } from "../../../utils/utils";
 
 const getUserInfo = async (ctx: AppContext, userId: string) => {
         const userInfo = await ctx.prisma.user.findUnique({
