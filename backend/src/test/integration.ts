@@ -1,5 +1,6 @@
 // TODO: Add tests to email sending
 
+import { env } from "../lib/env";
 import "../lib/sentry.mock";
 import "../lib/emails/utils.mock";
 import "../lib/brevo.mock";
@@ -12,7 +13,6 @@ import { deepMap } from "../utils/deepMap";
 import { getPasswordHash } from "../utils/getPasswordHash";
 import { type ExpressRequest } from "../utils/types";
 import { initTRPC } from "@trpc/server";
-import { env } from "../lib/env";
 import { omit } from "@bookkey/shared/src/omit";
 
 if (env.NODE_ENV !== 'test') {

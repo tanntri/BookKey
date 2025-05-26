@@ -1,5 +1,5 @@
-import * as Sentry from "@sentry/node";
 import { env } from "./env";
+import * as Sentry from "@sentry/node";
 import { type LoggerMeta } from "./logger";
 import path from "path";
 

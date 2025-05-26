@@ -1,10 +1,8 @@
+import { env } from "../env";
 import { promises as fs } from "fs";
 import path from "path";
-// import { type Review, type User, type Book } from "@prisma/client";
-import { type Review, type User} from "@prisma/client";
 import fg from "fast-glob";
 import _ from "lodash";
-import { env } from "../env";
 import Handlebars from "handlebars";
 import { sendEmailWithBrevo } from "../brevo";
 import { getAllBooksRoute } from "@bookkey/webapp/src/lib/routes";
