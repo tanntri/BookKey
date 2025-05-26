@@ -10,6 +10,7 @@ import { presetDB } from './scripts/presetDB';
 import { applyCron } from './lib/cron';
 import { logger } from './lib/logger';
 import { initSentry } from './lib/sentry';
+import { applyServeWebApp } from './lib/serveWebApp';
 
 void (async () => {
     let ctx: AppContext | null = null;
@@ -21,13 +22,14 @@ void (async () => {
         
         app.use(cors());
         
-        app.get('/', (req, res) => {
-            res.send('home');
-        })
+        // app.get('/', (req, res) => {
+        //     res.send('home');
+        // })
 
-        applyPassportToExpressApp(app, ctx)
+        applyPassportToExpressApp(app, ctx);
         
-        await useTrpcInExpress(app, ctx, trpcRouter)
+        await useTrpcInExpress(app, ctx, trpcRouter);
+        await applyServeWebApp(app);
 
         applyCron(ctx);
 
