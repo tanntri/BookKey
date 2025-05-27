@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async"
 import { useEffect } from "react";
 import { zPasswordMustMatch, zStringRequired } from "@bookkey/shared/src/zod";
 import { UploadToCloudinary } from "../../../shared/UploadPicToCloudinary";
+import { RES } from "@bookkey/shared/src/constants";
 
 const General = ({me}: {me: NonNullable<TrpcRouterOutput['getMe']['me']>}) => {
     const trpcUtils = trpc.useUtils();
@@ -27,7 +28,7 @@ const General = ({me}: {me: NonNullable<TrpcRouterOutput['getMe']['me']>}) => {
             await updateProfile.mutateAsync(values);
             trpcUtils.invalidate()
         },
-        successMessage: 'Profile updated',
+        successMessage: RES.editProfile.profileUpdated,
         resetOnSuccess: false
     })
 
@@ -38,7 +39,7 @@ const General = ({me}: {me: NonNullable<TrpcRouterOutput['getMe']['me']>}) => {
                 <UploadToCloudinary label="Avatar" name="avatar" type="avatar" formik={formik} preset="large" />
             </FormItems>
             <Alert {...alertProps} />
-            <Button {...buttonProps}>Update Profile</Button>
+            <Button {...buttonProps}>{RES.editProfile.updateProfile}</Button>
         </form>
     )
 }
@@ -59,7 +60,7 @@ const Password = () => {
             onSubmit: async ({ newPassword,oldPassword }) => {
                 await updatePassword.mutateAsync({newPassword, oldPassword})
             },
-            successMessage: 'Password Updated!',
+            successMessage: RES.editProfile.passwordUpdated,
             resetOnSuccess: true
     })
 
@@ -71,7 +72,7 @@ const Password = () => {
                 <Input label="Confirm New Password" name="newPasswordConfirm" formik={formik} />
             </FormItems>
             <Alert {...alertProps} />
-            <Button {...buttonProps}>Update Password</Button>
+            <Button {...buttonProps}>{RES.editProfile.updatePassword}</Button>
         </form>
     )
 }
