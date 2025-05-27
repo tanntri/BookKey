@@ -1,0 +1,29 @@
+@use '../Input/index.module.scss';
+@use '../../../../styles/mixins' as mixin;
+@use '../../../../styles/vars' as var;
+
+.field {
+    input {
+        display: none;
+    }
+
+    .previewPlace {
+        position: relative;
+        box-sizing: content-box;
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+        border: 1px solid var.$gray;
+        background-color: var.$grayLight;
+        border-radius: var.$borderRadiusSmall;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .preview {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+}
