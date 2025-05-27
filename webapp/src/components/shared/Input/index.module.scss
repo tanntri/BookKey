@@ -2,6 +2,8 @@
 @use '../../../../styles/vars' as var;
 
 .field {
+    position: relative;
+
     &.disabled {
         opacity: 0.5;
     }
@@ -12,6 +14,21 @@
         display: block;
     }
 
+    .inputWrap {
+        position: relative;
+        width: 100%;
+    }
+
+    .searchIcon {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #888;
+        font-size: 14px;
+      }
+
     .input {
         display: block;
         padding: 7px;
@@ -21,6 +38,10 @@
         outline: none;
         width: 100%;
         max-width: 200px;
+
+        &.search {
+            padding: 7px 8px 7px 32px;
+        }
 
         &:focus {
             border-color: var.$blue;
@@ -34,5 +55,30 @@
     .error {
         margin-top: 2px;
         color: var.$red;
+    }
+}
+
+.stars {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+
+    .star {
+        font-size: 24px;
+        color: var.$gray; // base color
+        cursor: default;
+
+        &.filled {
+            color: var.$yellow; // or your theme highlight
+        }
+
+        &.clickable {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
     }
 }

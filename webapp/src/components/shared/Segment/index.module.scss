@@ -12,7 +12,7 @@
     }
 
     .description {
-        font-size: 18px;
+        font-size: 15px;
         margin-top: 5px;
     }
 
@@ -22,5 +22,24 @@
 
     & + .segment {
         margin-top: 40px;
+    }
+
+    .stars {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: var.$yellow; 
+        display: flex;
+        gap: 2px;
+      
+        .filledStar {
+            color: var.$yellow;
+        }
+      
+        .emptyStar {
+            color: #ccc;
+        }
     }
 }

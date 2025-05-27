@@ -1,6 +1,5 @@
 import { useParams as useReactRouterParams } from "react-router-dom";
-
-const baseUrl = process.env.VITE_WEBAPP_URL || process.env.WEBAPP_URL;
+import { sharedEnv } from "@bookkey/shared/src/env";
 
 type getRouteInputBase = {
     abs?: boolean
@@ -31,7 +30,7 @@ function getRouteFn(routeParamsOrGetRoute?: any, maybeGetRoute?: any) {
     const toGetRouteFn = (routeParams?: getRouteInputBase) => {
         const route = getRoute(routeParams);
         if (routeParams?.abs) {
-            return `${baseUrl}${route}`;
+            return `${sharedEnv.WEBAPP_URL}${route}`;
         } else {
             return route;
         }

@@ -14,6 +14,16 @@ import { NotFoundPage } from "./components/shared/NotFound";
 import { EditProfilePage } from "./components/pages/Auth/EditProfilePage";
 import { HelmetProvider } from "react-helmet-async";
 import { NonAuthRouteTracker } from "./components/shared/RouteNotAuth";
+import './lib/sentry';
+import { SentryUser } from "./lib/sentry";
+import { MixpanelUser } from "./lib/mixpanel";
+import { ProfilePage } from "./components/pages/Auth/ProfilePage";
+import { TradePage } from "./components/pages/Transactions/TradePage";
+import { PurchasePage } from "./components/pages/Transactions/PurchasePage";
+import { RentPage } from "./components/pages/Transactions/RentPage";
+import { BookMarkPage } from "./components/pages/Books/BookmarkPage";
+import { BookReadPage } from "./components/pages/Books/BookReadPage";
+import { LibraryPage } from "./components/pages/Books/LibraryPage";
 
 export const App = () => {
   return (
@@ -21,7 +31,9 @@ export const App = () => {
       <TrpcProvider> 
         <AppContextProvider>
           <BrowserRouter>
-          <NonAuthRouteTracker />
+          <SentryUser />
+          <MixpanelUser />
+            <NonAuthRouteTracker />
             <Routes>
               <Route path={routes.getSignOutRoute()} element={<SignOutPage />}/>
               <Route element={<Layout />}>
@@ -30,7 +42,14 @@ export const App = () => {
                 <Route path={routes.getAllBooksRoute.definition} element={<AllBooksPages />} />
                 <Route path={routes.getNewBookRoute.definition} element={<NewBookPage />} />
                 <Route path={routes.getViewBookRoute.definition} element={<ViewBookPage />} />
-                <Route path={routes.getEditProfileRoute()} element={<EditProfilePage />} />
+                <Route path={routes.getProfileRoute.definition} element={<ProfilePage />} />
+                <Route path={routes.getEditProfileRoute.definition} element={<EditProfilePage />} />
+                <Route path={routes.getTradeRoute.definition} element={<TradePage />} />
+                <Route path={routes.getPurchaseRoute.definition} element={<PurchasePage />} />
+                <Route path={routes.getRentRoute.definition} element={<RentPage />} />
+                <Route path={routes.getLibraryRoute.definition} element={<LibraryPage />} />
+                <Route path={routes.getBookMarksRoute.definition} element={<BookMarkPage />} />
+                <Route path={routes.getBooksReadRoute.definition} element={<BookReadPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>

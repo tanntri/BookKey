@@ -38,6 +38,18 @@
         }
     }
 
+    &.color-blue {
+        background-color: var.$blue;
+
+        &:hover {
+            background-color: color.scale(var.$blue, $lightness: 10%)
+        }
+
+        &:active {
+            background-color: color.scale(var.$blue, $lightness: 10%)
+        }
+    }
+
 
     .submit {
         background-color: #0a980a;
@@ -69,3 +81,11 @@
         }
     }
 }
+
+.buttons {
+    margin-right: -5px;
+
+    & > * {
+        margin-right: 5px;
+    }
+ }
