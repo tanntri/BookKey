@@ -39,12 +39,9 @@ export const getReviewsTrpcRoute = trpcLoggedProcedure.input(
             }]
         })
 
-        // console.dir(rawReviews, {depth: null});
         const reviews = rawReviews.map((review) => {
             const isLikedByCurrUser = !!review.reviewsLikes.length;
             return {...review, likesCount: review._count.reviewsLikes || 0, isLikedByCurrUser: isLikedByCurrUser}
         })
-        // console.log('got here')
-        // console.dir(reviews, {depth: null});
         return { reviews }
     })
