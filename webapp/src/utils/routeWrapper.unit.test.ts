@@ -1,6 +1,7 @@
-process.env.WEBAPP_URL = 'https://example.com';
-
+import { sharedEnv } from "@bookkey/shared/src/env";
 import { routeWrapper } from "./routeWrapper";
+
+sharedEnv.WEBAPP_URL = "https://example.com";
 
 describe('routeWrapper', () => {
     it('should return simple route', () => {

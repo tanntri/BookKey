@@ -18,11 +18,22 @@ import { routeWrapper } from "../utils/routeWrapper";
 
 // books routes
 export const getAllBooksRoute = routeWrapper(() => "/");
-export const getViewBookRoute = routeWrapper({ isbn: true }, ({ isbn }: { isbn: string }) => `/book/${isbn}`);
+export const getViewBookRoute = routeWrapper({ olid: true }, ({ olid }: { olid: string }) => `/books/${olid}`);
 export const getNewBookRoute = routeWrapper(() => "/book/new");
+export const getBookMarksRoute = routeWrapper({ userId: true }, ({ userId }: { userId: string | undefined }) => `/bookmark/${userId}`);
+export const getBooksReadRoute = routeWrapper({ userId: true }, ({ userId }: { userId: string | undefined }) => `/bookread/${userId}`);
+export const getLibraryRoute = routeWrapper({ userId: true }, ({ userId }: { userId: string | undefined }) => `/library/${userId}`);
 
 // authentication routes
 export const getSignUpRoute = routeWrapper(() => "/signup");
 export const getSignInRoute = routeWrapper(() => "/signin");
 export const getSignOutRoute = routeWrapper(() => "/signout");
 export const getEditProfileRoute = routeWrapper(() => "edit-profile");
+
+// profile route
+export const getProfileRoute = routeWrapper({ userId: true }, ({ userId }: { userId: string | undefined }) => `/profile/${userId}`);
+
+// transaction routes
+export const getTradeRoute = routeWrapper(() => "/trade")
+export const getPurchaseRoute = routeWrapper(() => "/purchase")
+export const getRentRoute = routeWrapper(() => "/rent")

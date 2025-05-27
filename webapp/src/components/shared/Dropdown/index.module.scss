@@ -1,0 +1,80 @@
+.dropdown {
+    position: relative;
+    font-family: inherit;
+    margin-left: 12px;
+}
+  
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #dcdde1;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.15s;   
+  
+    &:hover {
+      background: #f0f0f0;
+    }
+}
+
+.imageToggle {
+  display: inline-block;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 32px; // or whatever size you want
+    height: 32px;
+    border-radius: 50%;
+  }
+}
+
+  
+.panel {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 220px;
+    background: #fff;
+    border: 1px solid #dcdde1;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    z-index: 100;
+    max-height: 320px;
+    overflow-y: auto;
+}
+  
+.group {
+    padding: 4px 0;
+}
+  
+.header {
+    font-size: 13px;
+    font-weight: 700;       /* bolder */
+    color: #2d3748;         /* darker slate */
+    background: #f0f4f7;    /* light gray‑blue strip */
+    padding: 6px 14px;
+    // border-top: 1px solid #e0e0e0;
+}
+  
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+  
+.item {
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  
+    &:hover {
+      background: #f5f6fa;
+    }
+}
+  
