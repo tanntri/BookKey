@@ -14,7 +14,6 @@ export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpc
             id: input.reviewId
         }
     })
-    console.log('review to update', review)
 
     if (!review) {
         console.log('no review')
@@ -32,6 +31,5 @@ export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpc
             ...reviewInput
         }
     })
-    console.log('got here')
     return true;
 })
