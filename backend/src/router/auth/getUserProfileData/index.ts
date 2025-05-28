@@ -4,17 +4,53 @@ import { AppContext } from "../../../lib/ctx";
 import { getBooksInfo, getBooksSomethingByUser } from "../../../utils/utils";
 
 const getUserInfo = async (ctx: AppContext, userId: string) => {
-        const userInfo = await ctx.prisma.user.findUnique({
-            select: {
-                avatar: true,
-                username: true
-            },
-            where: {
-                id: userId
-            }
-        })
-        return userInfo;
-    }
+    const userInfo = await ctx.prisma.user.findUnique({
+        select: {
+            avatar: true,
+            username: true
+        },
+        where: {
+            id: userId
+        }
+    })
+    return userInfo;
+}
+
+const getBookStats = async (ctx: AppContext, userId: string) => {
+    const year = 2025;
+
+    const result: { month: string; source: string; count: number }[] = await ctx.prisma.$queryRaw`
+        SELECT TO_CHAR("createdAt", 'YYYY-MM') AS month, 'bookRead' AS source, COUNT(*) AS count
+        FROM "BookRead"
+        WHERE "userId" = ${userId}
+        AND EXTRACT(YEAR FROM "createdAt") = ${year}
+        GROUP BY month
+
+        UNION ALL
+
+        SELECT TO_CHAR("createdAt", 'YYYY-MM') AS month, 'library' AS source, COUNT(*) AS count
+        FROM "Library"
+        WHERE "userId" = ${userId}
+        AND EXTRACT(YEAR FROM "createdAt") = ${year}
+        GROUP BY month`;
+
+    const months = Array.from({ length: 12 }, (_, i) =>
+        `${year}-${String(i + 1).padStart(2, '0')}`
+    );
+    console.log(months);
+  
+    const output = months.map((month) => {
+        const libraryEntry = result.find((r) => r.month === month && r.source === 'library');
+        const bookReadEntry = result.find((r) => r.month === month && r.source === 'bookRead');
+    
+        return {
+            name: month,
+            library: Number(libraryEntry?.count || 0),
+            bookRead: Number(bookReadEntry?.count || 0),
+        };
+    });
+    return output
+}
 
 export const getUserProfileTrpcRoute = trpcLoggedProcedure
     .input(z.object({ userId: z.string() }))
@@ -52,8 +88,6 @@ export const getUserProfileTrpcRoute = trpcLoggedProcedure
             }]
         })
 
-        console.log(rawReviews);
-
         // Get data for bookmarks
         const booksMarkedIds = rawBookmarks.map((bookmark) => bookmark.bookId);
         const booksMarkedResponse = await getBooksSomethingByUser(booksMarkedIds);
@@ -82,9 +116,10 @@ export const getUserProfileTrpcRoute = trpcLoggedProcedure
         }).filter(Boolean); // removes nulls
 
         const userInfo = await getUserInfo(ctx, input.userId);
+        const bookStats = await getBookStats(ctx, input.userId);
 
         return {
-            booksMarked, booksRead, booksPossessed, booksReviewed, userInfo
+            booksMarked, booksRead, booksPossessed, booksReviewed, bookStats, userInfo
         }
 
     })
