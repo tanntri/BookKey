@@ -9,18 +9,19 @@ import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../lib/routes";
 import { RES } from "@bookkey/shared/src/constants";
 import { Icon } from "../../../shared/Icons";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const getCoverImage = (title: string, coverId?: string) => {
     return (
-      <div className={css.cover}>
-        {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} />
-        ) : (
-          <span>{title}</span>
-        )}
-      </div>
+        <div className={css.cover}>
+            {coverId ? (
+                <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} />
+            ) : (
+                <span>{title}</span>
+            )}
+        </div>
     );
-  };
+};
 
 export const ProfilePage = withPageWrapper({
     useQuery: () => {
@@ -37,9 +38,8 @@ export const ProfilePage = withPageWrapper({
         return profileInfo;
     },
     setProps: ({ queryResult, ctx, checkExists }) => {
-        console.log(queryResult);
         const profileInfo = checkExists(queryResult?.data, 'Bookmarks empty');
-        const me = ctx.me
+        const me = ctx.me;
         // just an example on the use of checkAccess
         // checkAccess(ctx.me?.id === book.id, 'Book not by current user')
         return {
@@ -48,23 +48,21 @@ export const ProfilePage = withPageWrapper({
     }
 })
 (({ profileInfo, me }) => {
-    console.log(profileInfo);
     const allBookmark = profileInfo.booksMarked?.map((bookmark: any) => {
-        console.log(bookmark);
         return (
-                <div className={css.book} key={bookmark.key} onMouseLeave={() => {}}>
-                    {getCoverImage(bookmark.title, bookmark.cover)}
-                    <Segment
-                        size={2}
-                        title={
-                            <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark.id })}>{bookmark.title}</Link>
-                        }
-                        score={bookmark.avgScore}
-                        description={`${RES.common.authors}: ${bookmark.author}`}>
-                    </Segment>
-                </div>
-        )
-    })
+            <div className={css.book} key={bookmark.key} onMouseLeave={() => {}}>
+                {getCoverImage(bookmark.title, bookmark.cover)}
+                <Segment
+                    size={2}
+                    title={
+                        <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark.id })}>{bookmark.title}</Link>
+                    }
+                    score={bookmark.avgScore}
+                    description={`${RES.common.authors}: ${bookmark.author}`}>
+                </Segment>
+            </div>
+        );
+    });
 
     const allBooksRead = profileInfo.booksRead?.map((bookRead: any) => {
         return (
@@ -79,8 +77,8 @@ export const ProfilePage = withPageWrapper({
                     description={`${RES.common.authors}: ${bookRead.author}`}>
                 </Segment>
             </div>
-    )
-    })
+        );
+    });
 
     const allBooksPossessed = profileInfo.booksPossessed?.map((bookPossessed: any) => {
         return (
@@ -95,8 +93,8 @@ export const ProfilePage = withPageWrapper({
                     description={`Authors: ${bookPossessed.author}`}>
                 </Segment>
             </div>
-    )
-    })
+        );
+    });
 
     const userReviews = profileInfo.booksReviewed?.map((bookReview: any) => {
         return (
@@ -114,15 +112,16 @@ export const ProfilePage = withPageWrapper({
                                 key={i}
                                 name="star"
                                 className={`${i < bookReview.review.score ? css.filledStar : css.emptyStar}`}
-                                // style={{ color: i < bookReview.review.score ? 'var(--yellow)' : '#ccc' }}
                                 size={20} />
                             ))}
                     </div>
                     <p>{bookReview.review.text}</p>
                 </Segment>
             </div>
-        )
-    })
+        );
+    });
+
+    console.log(profileInfo.bookStats);
 
     return (
         <Segment title={me ? `${RES.profile.userProfile(me.username)}` : `${RES.profile.profilePage}`}>
@@ -133,34 +132,77 @@ export const ProfilePage = withPageWrapper({
             <div>
                 <Tabs>
                     <TabList>
-                        <Tab>Library</Tab>
-                        <Tab>Bookmarks</Tab>
-                        <Tab>Read</Tab>
+                        <Tab>Books</Tab>
                         <Tab>Reviews</Tab>
+                        <Tab>Analytics</Tab>
                     </TabList>
-
                     <TabPanel>
-                        <div className={css.books}>
-                            {allBooksPossessed}
-                        </div>
-                    </TabPanel>
-                    <TabPanel>
-                        <div className={css.books}>
-                            {allBookmark}
-                        </div>
-                    </TabPanel>
-                    <TabPanel>
-                        <div className={css.books}>
-                            {allBooksRead}
-                        </div>
+                        <Tabs forceRenderTabPanel>
+                            <TabList>
+                                <Tab>Library</Tab>
+                                <Tab>Bookmarks</Tab>
+                                <Tab>Read</Tab>
+                            </TabList>
+                            <TabPanel>
+                                <div className={css.books}>
+                                    {allBooksPossessed}
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div className={css.books}>
+                                    {allBookmark}
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div className={css.books}>
+                                    {allBooksRead}
+                                </div>
+                            </TabPanel>
+                        </Tabs>
                     </TabPanel>
                     <TabPanel>
                         <div className={css.reviews}>
                             {userReviews}
                         </div>
                     </TabPanel>
+                    <TabPanel>
+                        <div className={css.chartContainer}>
+                            <h3 className={css.chartTitle}>Books Statistics</h3>
+                            <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
+                                <LineChart
+                                    width={500}
+                                    height={300}
+                                    data={profileInfo.bookStats}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="library" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                    <Line type="monotone" dataKey="bookRead" stroke="#82ca9d" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                            <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
+                                <BarChart width={730} height={250} data={profileInfo.bookStats}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="library" fill="#8884d8" />
+                                    <Bar dataKey="bookRead" fill="#82ca9d" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </TabPanel>
                 </Tabs>
             </div>
         </Segment>
-    )
-})
+    );
+});
