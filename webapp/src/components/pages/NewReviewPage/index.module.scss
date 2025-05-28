@@ -13,25 +13,75 @@
         margin-top: 20px;
     
         .review {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
             padding: 20px;
             border: 1px solid var.$black;
             border-radius: 10px;
+          
             & + .review {
                 margin-top: 20px;
             }
-    
-            // .bookLink {
-            //     @include link;
-            // }
-    
-        }
-    }
+          
+            .avatar {
+                flex: 0 0 80px;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+          
+            .content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+          
+            .likes {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+          
+                .likeButton {
+                    @include mixin.link;
+                }
+          
+                .likeCount {
+                    font-size: 14px;
+                    color: var.$black;
+                }
+            }
+          
+            .actions {
+                display: flex;
+                gap: 10px;
+                margin-top: 8px;
+          
+                button {
+                    padding: 4px 10px;
+                    font-size: 14px;
+                }
+            }
 
-    .likes {
-        // margin-top: 20px;
-
-        .likeButton {
-            @include mixin.link;
+            .stars {
+                font-size: 18px;
+                color: var.$yellow; 
+                display: flex;
+                gap: 2px;
+                width: fit-content;
+                align-self: flex-start;
+              
+                .filledStar {
+                    color: var.$yellow;
+                }
+              
+                .emptyStar {
+                    color: #ccc;
+                }
+            }
+              
         }
-    }
+    }          
 }
