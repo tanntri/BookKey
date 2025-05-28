@@ -1,0 +1,151 @@
+@use '../../../../../styles/_mixins.scss' as mixin;
+@use '../../../../../styles/_vars.scss' as var;
+
+.books {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  
+    .book {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px;
+        border: 1px solid var.$black;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  
+        .cover {
+            flex-shrink: 0;
+            width: 80px;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 6px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+    
+            span {
+                font-size: 12px;
+                text-align: center;
+                padding: 8px;
+            }
+        }
+    
+        .bookLink {
+            @include mixin.link;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+    
+        .segment {
+            flex: 1;
+        }
+    }
+    
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profileHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+  
+    p {
+        margin-top: 8px;
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  
+    .review {
+        display: flex;
+        align-items: flex-start;
+        padding: 16px;
+        border: 1px solid var.$black;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        gap: 16px;
+        width: 100%;
+  
+        .cover {
+            flex-shrink: 0;
+            width: 100px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 6px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+  
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+  
+            span {
+                font-size: 12px;
+                text-align: center;
+                padding: 8px;
+            }
+        }
+  
+        .reviewTitle {
+            font-size: 1.17em;
+        }
+
+        .stars {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            .filledStar {
+                color: var.$yellow;
+            }
+      
+            .emptyStar {
+                color: #ccc;
+            }
+        }
+    }
+  }
+  
+
+  
+  
