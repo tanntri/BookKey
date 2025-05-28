@@ -2,24 +2,229 @@
 @use '../../../../../styles/_vars.scss' as var;
 
 .searchBar {
-    margin-bottom: 20px;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 32px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: box-shadow 0.3s ease;
+  
+    &:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+  
+    .searchInput {
+      width: 100%;
+      position: relative;
+  
+      input {
+        width: 100%;
+        padding: 14px 20px 14px 44px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        transition: all 0.2s ease-in-out;
+  
+        &:focus {
+          outline: none;
+          background-color: #ffffff;
+          border-color: #4b7bec;
+          box-shadow: 0 0 0 4px rgba(75, 123, 236, 0.15);
+        }
+      }
+  
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #9e9e9e;
+      }
+    }
+  }
+  
 
 .books {
-    .book {
-        padding: 20px;
-        border: 1px solid var.$black;
-        border-radius: 10px;
-        & + .book {
-            margin-top: 20px;
-        }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  justify-items: center;
 
-        .bookLink {
-            @include mixin.link;
-        }
+  .book {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    width: 100%;
+    max-width: 300px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
-    .more {
-        margin-top: 15px;
+
+    .cover {
+      width: 120px;
+      height: 180px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      span {
+        color: #888;
+        font-size: 0.875rem;
+      }
+    }
+
+    // .bookLink {
+    //   @include mixin.link;
+    //   font-weight: 600;
+    //   font-size: 1.1rem;
+    //   margin-bottom: 8px;
+    // }
+
+    .bookLink {
+      color: #333;               // Subtle but distinguishable text color
+      text-decoration: none;     // No underline by default
+      font-weight: 400;          // Slight emphasis
+      border-bottom: 1px dashed transparent; // Adds subtle spacing below
+      font-size: 1.1rem;
+    
+      transition: 
+        color 0.2s ease,
+        border-color 0.2s ease;
+    
+      &:hover {
+        color: #0056b3; // A slightly deeper blue
+        border-bottom-color: #0056b3; // Makes the dashed line appear
+        cursor: pointer;
+      }
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .bookmarkBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        display: none;         /* hidden by default */
+        cursor: pointer;
+    
+        .iconOutline,
+        .iconFilled {
+          font-size: 20px;
+          color: #555;
+          transition: color 0.2s ease;
+        }
+    
+        .iconFilled {
+          color: #facc15;      /* yellow when saved */
+        }
+    }
+
+    .bookReadBtn {
+      position: absolute;
+      top: 40px;
+      right: 10px;
+      background: transparent;  // Button background
+      border: none;
+      display: none;
+      cursor: pointer;
+    
+      .iconOutline,
+      .iconFilled {
+        font-size: 20px;
+        color: #555; // Neutral gray
+        // background: transparent; // Prevent gray bg
+        transition: color 0.2s ease;
+      }
+    
+      .iconFilled {
+        color: #1E3A8A;
+      }
+    }
+
+    .libraryBtn {
+      position: absolute;
+      top: 70px;
+      right: 10px;
+      background: transparent;  // Button background
+      border: none;
+      display: none;
+      cursor: pointer;
+    
+      .iconOutline,
+      .iconFilled {
+        font-size: 20px;
+        color: #555; // Neutral gray
+        // background: transparent; // Prevent gray bg
+        transition: color 0.2s ease;
+      }
+    
+      .iconFilled {
+        color: #a855f7; // Purple
+      }
+    }
+    
+    
+
+    &:hover .bookmarkBtn {
+      display: block;        /* show on hover */
+    }
+
+    &:hover .bookReadBtn {
+      display: block;
+    }
+        
+    &:hover .libraryBtn {
+      display: block;
+    }
+  }
+
+  .more {
+    margin-top: 20px;
+  }
+}
+
+// Responsive breakpoints
+@media (max-width: 1024px) {
+    .books {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .books {
+        grid-template-columns: 1fr;
     }
 }
