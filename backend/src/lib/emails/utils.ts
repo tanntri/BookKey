@@ -43,7 +43,6 @@ export const sendEmail = async ({
             ...templateVariables,
             homeUrl: env.WEBAPP_URL || getAllBooksRoute({ abs: true })
         }
-        console.log(fullTemplateVariables.homeUrl)
         const html = await getEmailHtml(templateName, fullTemplateVariables)
         const { loggableResponse } = await sendEmailWithBrevo({ to, subject, html });
         logger.info('email', 'sendEmail', {
