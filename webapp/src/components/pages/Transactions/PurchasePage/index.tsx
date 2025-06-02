@@ -1,13 +1,13 @@
 import { withPageWrapper } from "../../../../lib/pageWrapper";
 
-export const TradePage = withPageWrapper({
+export const PurchasePage = withPageWrapper({
     setProps: ({ ctx }) => {
         const me = ctx.me;
         return { me }
     }
 })
-(({ }) => {
+(({  }) => {
     return (
-        <div>Trade Coming Soon!</div>
+        <div>Purchase Coming Soon!</div>
     )
 })
