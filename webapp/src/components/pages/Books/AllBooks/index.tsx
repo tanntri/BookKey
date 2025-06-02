@@ -28,7 +28,6 @@ type OpenLibraryWorksAuthorResponse = {
 const getAuthorNames = ({type, authors}: {type: string, authors: string[] | OpenLibraryWorksAuthorResponse[]}) => {
     // openlibrary api search uses 'docs' for books
     if (type === 'docs') {
-        console.log(authors);
         const authorNameJoined = authors ? authors.join(", ") : "None";
         const authorName = authorNameJoined.length > 100 ? authorNameJoined.slice(0, 97) + '...' : authorNameJoined;
         return authors ? `Authors: ${authorName}` : 'Authors: None';
@@ -64,8 +63,7 @@ const ActionButtons = ({ book, category, search, userId }: {
         category: string, 
         search: string | undefined,
         userId: string
-    }) => {
-    console.log(book)
+    }) => {       
 
     const [isBookmarked, setIsBookmarked] = useState(book.savedByCurrUser);
     const [isRead, setIsRead] = useState(book.readByCurrUser);

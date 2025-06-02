@@ -30,6 +30,4 @@ export const notifyMonthlyMostLiked = async (ctx: AppContext) => {
     for (const user of users) {
         await sendMostLikedBooksEmail({ user, books: mostLikedBooks })
     }
-
-    console.log(mostLikedBooks);
 }

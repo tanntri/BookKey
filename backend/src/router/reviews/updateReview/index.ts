@@ -4,7 +4,6 @@ import { zUpdateReviewTrpcInput } from "./input";
 
 export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpcInput).mutation(async ({ ctx, input })  => {
     const { reviewId, ...reviewInput } = input;
-    console.log('before checking for curr user')
     if (!ctx.me) {
         throw Error('UNAUTHORIZED');
     }
@@ -16,7 +15,6 @@ export const updateReviewTrpcRoute = trpcLoggedProcedure.input(zUpdateReviewTrpc
     })
 
     if (!review) {
-        console.log('no review')
         throw new ExpectedError('Not Found');
     }
     if (ctx.me.id !== input.userId) {
