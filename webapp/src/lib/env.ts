@@ -12,4 +12,9 @@ export const zEnv = z.object({
     VITE_MIXPANEL_API_KEY: zNonEmptyTrimmedRequiredNonLocal
 })
 
-export const env = zEnv.parse(process.env);
+const envFromBackend = (window as any).webappEnvFromBackend;
+// in development, window.webappEnvFromBackend will be { replaceMeWithPublicEnv: true }, so we use process.env
+// in production, it's replaced with actual env from backend, so we use it instead
+export const env = zEnv.parse(envFromBackend?.replaceMeWithPublicEnv ? process.env : envFromBackend);
+
+console.log(env.SOURCE_VERSION)
