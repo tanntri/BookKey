@@ -2,18 +2,11 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
+import { parsePublicEnv } from "./src/lib/parsePublicEnv"
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const publicEnv = Object.entries(env).reduce((acc, [key, value]) => {
-    if (key.startsWith('VITE_') || ['NODE_ENV', 'HOST_ENV', 'SOURCE_VERSION'].includes(key)) {
-      return {
-        ...acc,
-        [key]: value
-      }
-    }
-    return acc;
-  }, {})
+  const publicEnv = parsePublicEnv(env);
 
   // Sentry auth token and source version are needed in production, so we need
   // a check to make sure they are in place when the environment is not local

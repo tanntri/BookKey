@@ -1,9 +1,16 @@
 import { z } from "zod";
 import { zNonEmptyTrimmed } from "./zod";
 
+declare global {
+    const webappEnvFromBackend: Record<string, string> | undefined;
+}
+
+const windowEnv = typeof webappEnvFromBackend !== 'undefined' ? webappEnvFromBackend : {};
+const getSharedEnvVariables = (key: string) => windowEnv[`VITE_${key}`] || windowEnv[key] || process.env[`VITE_${key}`] || process.env[key];
+
 const sharedEnvRaw = {
-    CLOUDINARY_CLOUD_NAME: process.env.VITE_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME,
-    WEBAPP_URL: process.env.VITE_WEBAPP_URL || process.env.WEBAPP_URL
+    CLOUDINARY_CLOUD_NAME: getSharedEnvVariables('CLOUDINARY_CLOUD_NAME'),
+    WEBAPP_URL: getSharedEnvVariables('WEBAPP_URL')
 }
 
 const zEnv = z.object({
