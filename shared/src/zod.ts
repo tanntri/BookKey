@@ -5,7 +5,7 @@ export const zNonEmptyTrimmedRequiredNonLocal = zNonEmptyTrimmed.optional().refi
     (val) => `${process.env.HOST_ENV}` === 'local' || !!val,
     "Required on non local host"
 )
-export const zEnvHost = z.enum(['local'])
+export const zEnvHost = z.enum(['local', 'production'])
 
 export const zStringRequired = z.string({ required_error: "Value Required" }).min(1);
 export const zStringOptional = z.string().optional();
