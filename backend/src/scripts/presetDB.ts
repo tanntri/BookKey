@@ -10,7 +10,7 @@ export const presetDB = async (ctx: AppContext) => {
         create: {
             username: 'admin',
             email: 'admin@example.com',
-            password: getPasswordHash(env.INITIAL_ADMIN_PASSWORD),
+            password: await getPasswordHash(env.INITIAL_ADMIN_PASSWORD),
             permissions: ['ALL']
         },
         update: {
