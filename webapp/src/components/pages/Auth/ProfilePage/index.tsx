@@ -1,3 +1,5 @@
+// TODO: Make TRPC calls separately for each tab
+
 import { withPageWrapper } from "../../../../lib/pageWrapper";
 import { getProfileRoute } from "../../../../lib/routes";
 import { Segment } from "../../../shared/Segment/segment";
@@ -58,7 +60,8 @@ export const ProfilePage = withPageWrapper({
                         <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark.id })}>{bookmark.title}</Link>
                     }
                     score={bookmark.avgScore}
-                    description={`${RES.common.authors}: ${bookmark.author}`}>
+                    // description={`${RES.common.authors}: ${bookmark.author}`}>
+                    >
                 </Segment>
             </div>
         );
@@ -74,7 +77,8 @@ export const ProfilePage = withPageWrapper({
                         <Link className={css.bookLink} to={getViewBookRoute({ olid: bookRead.id })}>{bookRead.title}</Link>
                     }
                     score={bookRead.avgScore}
-                    description={`${RES.common.authors}: ${bookRead.author}`}>
+                    // description={`${RES.common.authors}: ${bookRead.author}`}>
+                    >
                 </Segment>
             </div>
         );
@@ -90,7 +94,8 @@ export const ProfilePage = withPageWrapper({
                         <Link className={css.bookLink} to={getViewBookRoute({ olid: bookPossessed.id })}>{bookPossessed.title}</Link>
                     }
                     score={bookPossessed.avgScore}
-                    description={`Authors: ${bookPossessed.author}`}>
+                    // description={`Authors: ${bookPossessed.author}`}>
+                    >
                 </Segment>
             </div>
         );

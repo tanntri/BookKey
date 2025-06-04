@@ -16,7 +16,9 @@ export const getLibraryTrpcRoute = trpcLoggedProcedure.input(
             createdAt: 'desc'
         }]
     })
-    const booksPossessedIds = rawLibrary.map((bookPossessed) => bookPossessed.bookId);
+    // const booksPossessedIds = rawLibrary.map((bookPossessed) => bookPossessed.bookId);
+    const booksPossessedIds = [...new Set(rawLibrary.map((bookPossessed) => bookPossessed.bookId))];
+
     const booksPossessedResponse = await getBooksSomethingByUser(booksPossessedIds);
 
     const booksPossessed = await getBooksInfo(booksPossessedResponse);

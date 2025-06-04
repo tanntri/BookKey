@@ -51,15 +51,16 @@ export const LibraryPage = withPageWrapper({
             <Segment title="Library">
                 <div className={css.books}>
                     {booksPossessed.map((bookPossessed) => {
-                        return (<div className={css.book} key={bookPossessed.id} onMouseLeave={() => {}}>
-                        {getCoverImage(bookPossessed.title, bookPossessed.cover)}
+                        return (<div className={css.book} key={bookPossessed?.id} onMouseLeave={() => {}}>
+                        {getCoverImage(bookPossessed?.title, bookPossessed?.cover)}
                         <Segment
                             size={2}
                             title={
                                 // <Link className={css.bookLink} to={`/books/${book.key.split("/")[2]}`}>{book.title}</Link>
-                                <Link className={css.bookLink} to={getViewBookRoute({ olid: bookPossessed.id })}>{bookPossessed.title}</Link>
+                                <Link className={css.bookLink} to={getViewBookRoute({ olid: bookPossessed?.id })}>{bookPossessed?.title}</Link>
                             }
-                            description={`Authors: ${bookPossessed.author}`}>
+                            // description={`Authors: ${bookPossessed?.author}`}>
+                            >
                         </Segment>
                     </div>)
                 })}
