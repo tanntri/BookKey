@@ -39,7 +39,7 @@ export const createUser = async ({ user = {}, number = 1 }: { user?: Partial<Use
         data: {
             username: `user${number}`,
             email: `user${number}@example.com`,
-            password: getPasswordHash(user.password || '1234'),
+            password: await getPasswordHash(user.password || '1234'),
             ...omit(user, ['password'])
         }
     })

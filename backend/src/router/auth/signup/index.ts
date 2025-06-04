@@ -26,7 +26,7 @@ export const signupTrpcRoute = trpcLoggedProcedure.input((zSignUpTrpcInput)).mut
         data: {
             username: input.username,
             email: input.email,
-            password: getPasswordHash(input.password)
+            password: await getPasswordHash(input.password)
         }
     })
     // send registration email

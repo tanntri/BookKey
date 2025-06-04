@@ -7,7 +7,7 @@ import { pick } from "@bookkey/shared/src/pick";
 
 export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
     if (!ctx.me) {
-        throw new Error("UNORTHORIZED");
+        throw new Error("UNAUTHORIZED");
     }
 
     if (ctx.me.username !== input.username) {
@@ -22,11 +22,12 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTr
             throw new ExpectedError("User with this username already exists")
         }
     }
+    const allowedFields = pick(input, ['username']);
     const updatedMe = await ctx.prisma.user.update({
         where: {
             id: ctx.me.id
         },
-        data: input
+        data: allowedFields
     })
     ctx.me = updatedMe;
     return pick(ctx.me, ['id', 'username']);
