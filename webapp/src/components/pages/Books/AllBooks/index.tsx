@@ -371,6 +371,7 @@ export const AllBooksPages = () => {
     }, [])
 
     const type = data?.pages[0].type || '';
+    console.log('data', data)
 
     return (
         <Segment title={category}>

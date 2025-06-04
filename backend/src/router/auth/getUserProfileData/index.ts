@@ -108,7 +108,7 @@ export const getUserProfileTrpcRoute = trpcLoggedProcedure
         const booksReviewedResponse = await getBooksSomethingByUser(booksReviewedIds);
         const rawBooksInfo = await getBooksInfo(booksReviewedResponse);
         const booksReviewed = rawReviews.map(review => {
-            const book = rawBooksInfo.find(rawBookInfo => rawBookInfo.id === review.bookId);
+            const book = rawBooksInfo.find(rawBookInfo => rawBookInfo?.id === review.bookId);
             if (book) {
                 return { review, book };
             }

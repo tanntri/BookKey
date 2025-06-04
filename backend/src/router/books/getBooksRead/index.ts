@@ -16,7 +16,9 @@ export const getBooksReadTrpcRoute = trpcLoggedProcedure.input(
             createdAt: 'desc'
         }]
     })
-    const booksReadIds = rawBooksRead.map((bookRead) => bookRead.bookId);
+    // const booksReadIds = rawBooksRead.map((bookRead) => bookRead.bookId);
+    const booksReadIds = [...new Set(rawBooksRead.map((bookRead) => bookRead.bookId))];
+
     const booksReadResponse = await getBooksSomethingByUser(booksReadIds)
 
     const booksRead = await getBooksInfo(booksReadResponse);

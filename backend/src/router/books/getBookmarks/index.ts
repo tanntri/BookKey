@@ -16,7 +16,9 @@ export const getBookmarksTrpcRoute = trpcLoggedProcedure.input(
             createdAt: 'desc'
         }]
     })
-    const booksMarkedIds = rawBookmarks.map((bookmark) => bookmark.bookId);
+    // const booksMarkedIds = rawBookmarks.map((bookmark) => bookmark.bookId);
+    const booksMarkedIds = [...new Set(rawBookmarks.map((bookmark) => bookmark.bookId))];
+
     const booksMarkedResponse = await getBooksSomethingByUser(booksMarkedIds)
 
     const booksMarked = await getBooksInfo(booksMarkedResponse);

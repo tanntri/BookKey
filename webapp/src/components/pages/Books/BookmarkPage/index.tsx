@@ -46,14 +46,15 @@ export const BookMarkPage = withPageWrapper({
             <Segment title="Bookmarks">
                 <div className={css.books}>
                     {bookmarks.map((bookmark) => {
-                        return (<div className={css.book} key={bookmark.id} onMouseLeave={() => {}}>
-                        {getCoverImage(bookmark.title, bookmark.cover)}
+                        return (<div className={css.book} key={bookmark?.id} onMouseLeave={() => {}}>
+                        {getCoverImage(bookmark?.title, bookmark?.cover)}
                         <Segment
                             size={2}
                             title={
-                                <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark.id })}>{bookmark.title}</Link>
+                                <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark?.id })}>{bookmark?.title}</Link>
                             }
-                            description={`Authors: ${bookmark.author}`}>
+                            // description={`Authors: ${bookmark?.author}`}>
+                            >
                         </Segment>
                     </div>)
                 })}
