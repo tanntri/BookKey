@@ -65,7 +65,7 @@ export const getBooksInfo = async (bookResponse: BookResponse[]) => {
               limit(async () => {
                 try {
                   const { data } = await axios.get(`https://openlibrary.org${bookRes.key}.json`);
-                  const authors = data.authors;
+                //   const authors = data.authors;
       
                   return {
                     id: data.key.split("/")[2],
