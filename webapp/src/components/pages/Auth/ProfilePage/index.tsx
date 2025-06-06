@@ -126,8 +126,6 @@ export const ProfilePage = withPageWrapper({
         );
     });
 
-    console.log(profileInfo.bookStats);
-
     return (
         <Segment title={me ? `${RES.profile.userProfile(me.username)}` : `${RES.profile.profilePage}`}>
             <div className={css.profileHeader}>

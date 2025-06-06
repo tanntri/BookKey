@@ -19,7 +19,6 @@ const ActionButtons = ({ book, userId }: {
         book: TrpcRouterOutput['getBook']
         userId: string | undefined
     }) => {
-    console.log(book)
     const [isBookmarked, setIsBookmarked] = useState(book.savedByCurrUser);
     const [isRead, setIsRead] = useState(book.readByCurrUser);
     const [isPossessed, setIsPossessed] = useState(book.possessedByCurrUser)
@@ -202,7 +201,6 @@ const ActionButtons = ({ book, userId }: {
 };
 
 const getDescription = (description: BookDescription | string) => {
-    console.log(description);
     if (typeof description === 'string') {
         return description; 
     } else if (!description) {
@@ -233,7 +231,6 @@ export const ViewBookPage = withPageWrapper({
     useEffect(() => {
         document.title = `${book.title} -- BookKey`
     }, [])
-    console.log(book);
     const description = getDescription(book.description);
     return (
         <Segment key={book.id} 

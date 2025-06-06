@@ -49,7 +49,6 @@ const LikeButton = ({review}: {review: NonNullable<TrpcRouterOutput['getReview']
                 void setReviewLike.mutateAsync({ reviewId: review.id!, likedByCurrUser: !review.isLikedByCurrUser  })
                     .then(() => {
                         if (!review.isLikedByCurrUser) {
-                            console.log('got to mixpanel like review')
                             mixpanelSetReviewLike({id: review.id!, likedByCurrUser: review.isLikedByCurrUser, likesCount: review.likesCount})
                         }
                     })
@@ -90,7 +89,6 @@ export const NewReview = (props: any) => {
     const [editOrCreate, setEditOrCreate] = useState('Create Review');
     const [isEditing, setIsEditing] = useState(false);
     const [reviewByCurrUserId, setReviewByCurrUserId] = useState('');
-    console.log('props.bookresult', props.bookResult);
     let formikEdit = useForm({
         initialValues: {
             title: '',
@@ -128,8 +126,6 @@ export const NewReview = (props: any) => {
         },
         validationSchema: zCreateReviewTrpcInput,
         onSubmit: async (values) => {
-            console.log('got to try to submit')
-            console.log(values);
             await createReview.mutateAsync(values);
             // if no problem occur, it will proceed
             formikCreate.formik.resetForm();
