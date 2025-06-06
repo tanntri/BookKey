@@ -22,7 +22,7 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure.input(zUpdateProfileTr
             throw new ExpectedError("User with this username already exists")
         }
     }
-    const allowedFields = pick(input, ['username']);
+    const allowedFields = pick(input, ['username', 'avatar']);
     const updatedMe = await ctx.prisma.user.update({
         where: {
             id: ctx.me.id
