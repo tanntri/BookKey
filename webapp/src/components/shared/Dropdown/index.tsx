@@ -74,7 +74,6 @@ export const DropdownButton: React.FC<DropdownProps> = ({ onSelect, optionsObjec
 // }
 
 export const DropdownPanel: React.FC<DropdownProps> = ({ onSelect, optionsObject, setOpen }) => {
-  console.log('options:', optionsObject)
   return (
     <div className={css.panel}>
       {Object.entries(optionsObject).map(([header, items]) => (
@@ -95,7 +94,6 @@ export const DropdownPanel: React.FC<DropdownProps> = ({ onSelect, optionsObject
                   }}
                 >
                   {isString ? sub : sub}
-                  {console.log(sub)}
                 </li>
               );
             })}

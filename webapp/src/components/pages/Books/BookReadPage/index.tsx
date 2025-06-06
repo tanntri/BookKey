@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../lib/routes";
 
 const getCoverImage = (title: string, coverId?: string) => {
-    console.log('coverid', coverId);
     return (
       <div className={css.cover}>
         {coverId ? (
@@ -22,7 +21,6 @@ const getCoverImage = (title: string, coverId?: string) => {
 export const BookReadPage = withPageWrapper({
     useQuery: () => {
         const { userId } = getBooksReadRoute.useParams();
-        console.log(userId);
         const booksRead = trpc.getBooksRead.useQuery(
             { userId },
             {
@@ -34,7 +32,6 @@ export const BookReadPage = withPageWrapper({
         return booksRead;
     },
     setProps: ({ queryResult, ctx, checkExists }) => {
-        console.log(queryResult);
         const booksRead = checkExists(queryResult?.data, 'Bookmarks empty');
         const me = ctx.me;
         // just an example on the use of checkAccess
@@ -45,7 +42,6 @@ export const BookReadPage = withPageWrapper({
     }
 })
 (({ booksRead }) => {
-    console.log(booksRead)
     return (
             <Segment title="Read">
                 <div className={css.books}>

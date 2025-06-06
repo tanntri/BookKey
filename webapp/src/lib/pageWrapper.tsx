@@ -79,7 +79,6 @@ const PageWrapper = <TProps extends Props = {}, TQueryResult extends QueryResult
     showLoaderOnFetching = true
 }: PageWrapperProps<TProps, TQueryResult>) => {
     const nonAuthRouteLastVisited = useStore(lastNonAuthRouteVisitedStore);
-    console.log(nonAuthRouteLastVisited);
     const navigate = useNavigate();
     const ctx = useAppContext();
     const queryResult = useQuery?.();

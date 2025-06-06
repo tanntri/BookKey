@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../lib/routes";
 
 const getCoverImage = (title: string, coverId?: string) => {
-    console.log('coverid', coverId);
     return (
       <div className={css.cover}>
         {coverId ? (
@@ -22,7 +21,6 @@ const getCoverImage = (title: string, coverId?: string) => {
 export const LibraryPage = withPageWrapper({
     useQuery: () => {
         const { userId } = getLibraryRoute.useParams();
-        console.log(userId);
         const booksPossessed = trpc.getLibrary.useQuery(
             { userId },
             {
@@ -31,11 +29,9 @@ export const LibraryPage = withPageWrapper({
                 refetchOnWindowFocus: false, // avoid refetching every time user switches tab
             }
         )
-        console.log(booksPossessed)
         return booksPossessed;
     },
     setProps: ({ queryResult, ctx, checkExists }) => {
-        console.log(queryResult);
         const booksPossessed = checkExists(queryResult?.data, 'Bookmarks empty');
         const me = ctx.me;
         // just an example on the use of checkAccess
@@ -46,7 +42,6 @@ export const LibraryPage = withPageWrapper({
     }
 })
 (({ booksPossessed }) => {
-    console.log(booksPossessed)
     return (
             <Segment title="Library">
                 <div className={css.books}>

@@ -28,7 +28,6 @@ const useUploadToCloudinary = (type: CloudinaryUploadTypeName) => {
     const uploadToCloudinary = async (file: File) => {
         // const { preparedData } = await prepareCloudinaryUpload.mutateAsync({ type });
         const { preparedData } = await getPreparedData();
-        console.log(preparedData);
 
         const formData = new FormData();
         formData.append('file', file);

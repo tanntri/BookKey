@@ -37,7 +37,6 @@ const getBookStats = async (ctx: AppContext, userId: string) => {
     const months = Array.from({ length: 12 }, (_, i) =>
         `${year}-${String(i + 1).padStart(2, '0')}`
     );
-    console.log(months);
   
     const output = months.map((month) => {
         const libraryEntry = result.find((r) => r.month === month && r.source === 'library');
