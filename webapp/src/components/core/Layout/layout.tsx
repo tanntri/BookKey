@@ -103,7 +103,7 @@ export const Layout = () => {
               {menuOpen ? <CloseIcon /> : <MenuIcon />}
             </button>
           </div>
-          <ul className={`${css.menu} ${menuOpen ? css.open : ""}`}>
+          <ul className={`${css.menu} ${menuOpen ? css.open : ""}`} onClick={() => menuOpen ? toggleMenu() : null}>
             {me ? (
               <>
                 {menuOpen && <li className={css.item}>
