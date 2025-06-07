@@ -12,7 +12,6 @@ RUN pnpm install --offline --ignore-scripts --frozen-lockfile
 
 ARG NODE_ENV=production
 ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 ARG SOURCE_VERSION
 
 RUN pnpm b prepare

@@ -13,6 +13,8 @@ jobs:
           registry: registry.heroku.com
           username: ${{secrets.HEROKU_EMAIL}}
           password: ${{secrets.HEROKU_API_KEY}}
+      - name: Echo Sentry Token (for debugging)
+        run: echo ${{secrets.SENTRY_AUTH_TOKEN}}
       - name: Build and Push
         uses: docker/build-push-action@v4
         with: 
