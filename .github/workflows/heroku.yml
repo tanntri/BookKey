@@ -21,6 +21,9 @@ jobs:
           build-args: |
             SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
             SOURCE_VERSION=${{github.sha}}
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
       - name: Release Image to Heroku
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
