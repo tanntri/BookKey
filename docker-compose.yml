@@ -8,7 +8,6 @@ services:
         # ${...} is used to get value from env of host machine
         SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
         SOURCE_VERSION: ${SOURCE_VERSION}
-        HOST_ENV: ${HOST_ENV}
     image: bookkey-image-0
     container_name: bookkey-container
     # env_file and ports used in runtime of container, not in image build
