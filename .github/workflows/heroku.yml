@@ -21,6 +21,7 @@ jobs:
           build-args:
             SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
             SOURCE_VERSION=${{github.sha}}
+            HOST_ENV=${{secrets.HOST_ENV}}
       - name: Release Image to Heroku
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
