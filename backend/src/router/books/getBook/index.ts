@@ -8,8 +8,8 @@ export const getBookTrpcRoute = trpcLoggedProcedure.input(
             olid: z.string()
         }))
     ).query(async ({ctx, input}) => {
-        const { data } = await axios.get(`https://openlibrary.org/works/${input.olid}.json`) 
-        const authors = data.authors;
+        const { data } = await axios.get(`https://openlibrary.org/works/${input.olid}.json`);
+        const authors = data.authors ? data.authors : [];
         const bookmark = ctx.me ? await ctx.prisma.bookmark.findUnique({
             where: {
                 bookId_userId: {
