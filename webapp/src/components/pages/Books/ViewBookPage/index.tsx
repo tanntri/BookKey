@@ -252,7 +252,7 @@ export const ViewBookPage = withPageWrapper({
                 <div className={css.noCover}>{book.title}</div>
             )}
 
-            <div className={css.authors}>{`Authors: ${book.author}`}</div>
+            <div className={css.authors}>{`Authors: ${book.author ? book.author : 'Not Available'}`}</div>
             <div className={css.description}>{description ? description : 'Description not available'}</div>
 
             {me && (
