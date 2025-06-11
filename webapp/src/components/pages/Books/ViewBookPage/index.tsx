@@ -247,6 +247,7 @@ export const ViewBookPage = withPageWrapper({
                     src={`https://covers.openlibrary.org/b/id/${book.cover}-M.jpg`}
                     alt={`${book.title} cover`}
                     className={css.coverImage}
+                    loading="lazy"
                 />
             ) : (
                 <div className={css.noCover}>{book.title}</div>
