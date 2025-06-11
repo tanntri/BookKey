@@ -10,7 +10,7 @@ const getCoverImage = (title: string, coverId?: string) => {
     return (
       <div className={css.cover}>
         {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} />
+          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} loading="lazy" />
         ) : (
           <span>{title}</span>
         )}

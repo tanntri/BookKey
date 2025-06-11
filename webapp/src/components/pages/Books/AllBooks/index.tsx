@@ -50,7 +50,7 @@ const getCoverImage = (title: string, coverId?: string) => {
     return (
       <div className={css.cover}>
         {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} />
+          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} loading='lazy' />
         ) : (
           <span>{title}</span>
         )}
@@ -92,7 +92,7 @@ const ActionButtons = ({ book, category, search, userId }: {
             trpcUtils.getBooks.setInfiniteData({
                 limit: 20,
                 search: search,
-                category: category === 'Home' ? 'popular' : category}, oldData => {
+                category: category === 'Home' ? 'fiction' : category}, oldData => {
                 if (!oldData) return oldData;
                 return {
                   ...oldData,
@@ -152,7 +152,7 @@ const ActionButtons = ({ book, category, search, userId }: {
             trpcUtils.getBooks.setInfiniteData({
                 limit: 20,
                 search: search,
-                category: category === 'Home' ? 'popular' : category}, oldData => {
+                category: category === 'Home' ? 'fiction' : category}, oldData => {
                 if (!oldData) return oldData;
                 return {
                   ...oldData,
@@ -212,7 +212,7 @@ const ActionButtons = ({ book, category, search, userId }: {
             trpcUtils.getBooks.setInfiniteData({
                 limit: 20,
                 search: search,
-                category: category === 'Home' ? 'popular' : category}, oldData => {
+                category: category === 'Home' ? 'fiction' : category}, oldData => {
                 if (!oldData) return oldData;
                 return {
                   ...oldData,
@@ -357,7 +357,7 @@ export const AllBooksPages = () => {
         {
             limit: 20,
             search: debounceSearch,
-            category: category === 'Home' ? 'popular' : category,
+            category: category === 'Home' ? 'fiction' : category,
         },
         {
             getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
