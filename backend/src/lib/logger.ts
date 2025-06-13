@@ -62,7 +62,7 @@ export const winstonLogger = winston.createLogger({
 export type LoggerMeta = Record<string, any> | undefined
 const classifyMetadata = (metadata: LoggerMeta): LoggerMeta => {
     return deepMap(metadata, ({ key, value }) => {
-        if (['email', 'password', 'newPassword', 'oldPassword', 'token', 'apiKey', 'signature'].includes(key)) {
+        if (['email', 'password', 'newPassword', 'oldPassword', 'token', 'apiKey', 'signature', 'confirmPassword'].includes(key)) {
             return '***'
         }
         return value
