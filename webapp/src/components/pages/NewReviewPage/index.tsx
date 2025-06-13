@@ -73,7 +73,7 @@ const BlockReview = ({ review }: { review: NonNullable<TrpcRouterOutput['getRevi
         <form onSubmit={formik.handleSubmit}>
             <FormItems>
                 <Alert {...alertProps} />
-                <Button color="red" {...buttonProps}>Block</Button>
+                <Button color="red" {...buttonProps} disabled={false}>Block</Button>
             </FormItems>
         </form>
     )
@@ -81,6 +81,7 @@ const BlockReview = ({ review }: { review: NonNullable<TrpcRouterOutput['getRevi
 
 export const NewReview = (props: any) => {
     const me = useMe();
+    console.log(me)
     const createReview = trpc.createReview.useMutation();
     const updateReview = trpc.editReview.useMutation();
     const reviewResults = trpc.getReviews.useQuery({bookId: props.bookResult.id!}, {enabled: !!props.bookResult.id})
