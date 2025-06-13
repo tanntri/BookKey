@@ -9,7 +9,7 @@ import { getAllBooksRoute } from "@bookkey/webapp/src/lib/routes";
 import { logger } from "../logger";
 
 const getHandlebarTemplates = _.memoize(async () => {        // use memoize to cache so we only call this once during run time
-    const htmlPathsPattern = path.resolve(__dirname, "../emails/dist/**/*.html");
+    const htmlPathsPattern = path.resolve(__dirname, "../../emails/dist/**/*.html");
     const htmlPaths = fg.sync(htmlPathsPattern);
     const handlebarTemplates: Record<string, HandlebarsTemplateDelegate> = {};
     for (const htmlPath of htmlPaths) {
