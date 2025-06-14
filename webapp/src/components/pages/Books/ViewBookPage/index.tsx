@@ -154,7 +154,7 @@ const ActionButtons = ({ book, userId }: {
     const handleClickLibrary = () => {
         setLibrary.mutate({
             bookId: book.id,
-            possessedByCurrUser: !isRead,
+            possessedByCurrUser: !isPossessed,
         })
     }
 
