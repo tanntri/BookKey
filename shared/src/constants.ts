@@ -65,18 +65,33 @@ export const RES = {
         authors: "Authors"
     },
     profile: {
+        analytics: "Analytics",
+        books: "Books",
+        booksPossessed: "Books Possessed",
+        booksRead: "Books Read",
+        booksStatistics: "Books Statistics",
+        booksMarked: "Books Marked",
+        userNotFound: "User Not Found",
         userProfile: (username: string) => `${username}'s Profile`,
         profilePage: "Profile Page",
         library: "Library",
         bookmarks: "Bookmarks",
         read: "Read",
-        reviews: "Reviews"
+        reviews: "Reviews",
+
     },
     editProfile: {
+        avatar: "Avatar",
+        confirmNewPassword: "Confirm New Password",
         editProfile: "Edit Profile",
+        general: "General",
+        newPassword: "New Password",
+        oldPassword: "Old Password",
         profileUpdated: "Profile Updated",
+        password: "Password",
         passwordUpdated: "Password Updated",
         updateProfile: "Update Profile",
-        updatePassword: "Update Password"
+        updatePassword: "Update Password",
+        userName: "Username"
     }
 }

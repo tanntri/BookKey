@@ -126,8 +126,45 @@ export const ProfilePage = withPageWrapper({
         );
     });
 
+    const booksStats = (
+            <div>
+                <h3 className={css.chartTitle}>{RES.profile.booksStatistics}</h3>
+                <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
+                    <LineChart
+                        width={500}
+                        height={300}
+                        data={profileInfo.bookStats}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="library" stroke="#8884d8" activeDot={{ r: 8 }} />
+                        <Line type="monotone" dataKey="bookRead" stroke="#82ca9d" />
+                    </LineChart>
+                </ResponsiveContainer>
+                <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
+                    <BarChart width={730} height={250} data={profileInfo.bookStats}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="library" fill="#8884d8" />
+                        <Bar dataKey="bookRead" fill="#82ca9d" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+        )
+
     return (
-        <Segment title={me ? `${RES.profile.userProfile(me.username)}` : `${RES.profile.profilePage}`}>
+        <Segment title={profileInfo.userInfo?.username}>
             <div className={css.profileHeader}>
                 <img className={css.avatar} src={getAvatarUrl(profileInfo.userInfo?.avatar, 'small')} alt="" />
                 <p>{profileInfo.userInfo?.username}</p>
@@ -135,16 +172,16 @@ export const ProfilePage = withPageWrapper({
             <div>
                 <Tabs>
                     <TabList>
-                        <Tab>Books</Tab>
-                        <Tab>Reviews</Tab>
-                        <Tab>Analytics</Tab>
+                        <Tab>{RES.profile.books}</Tab>
+                        <Tab>{RES.profile.reviews}</Tab>
+                        {me?.username === profileInfo.userInfo?.username ?  <Tab>{RES.profile.analytics}</Tab> : null}
                     </TabList>
                     <TabPanel>
                         <Tabs forceRenderTabPanel>
                             <TabList>
-                                <Tab>Library</Tab>
-                                <Tab>Bookmarks</Tab>
-                                <Tab>Read</Tab>
+                                <Tab>{RES.profile.library}</Tab>
+                                {me?.username === profileInfo.userInfo?.username ? <Tab>{RES.profile.bookmarks}</Tab> : null}
+                                <Tab>{RES.profile.read}</Tab>
                             </TabList>
                             <TabPanel>
                                 <div className={css.books}>
@@ -170,38 +207,7 @@ export const ProfilePage = withPageWrapper({
                     </TabPanel>
                     <TabPanel>
                         <div className={css.chartContainer}>
-                            <h3 className={css.chartTitle}>Books Statistics</h3>
-                            <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
-                                <LineChart
-                                    width={500}
-                                    height={300}
-                                    data={profileInfo.bookStats}
-                                    margin={{
-                                        top: 5,
-                                        right: 30,
-                                        left: 20,
-                                        bottom: 5,
-                                    }}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="library" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                    <Line type="monotone" dataKey="bookRead" stroke="#82ca9d" />
-                                </LineChart>
-                            </ResponsiveContainer>
-                            <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
-                                <BarChart width={730} height={250} data={profileInfo.bookStats}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Bar dataKey="library" fill="#8884d8" />
-                                    <Bar dataKey="bookRead" fill="#82ca9d" />
-                                </BarChart>
-                            </ResponsiveContainer>
+                            {booksStats}
                         </div>
                     </TabPanel>
                 </Tabs>
