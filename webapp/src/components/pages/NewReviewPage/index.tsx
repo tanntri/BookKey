@@ -5,7 +5,7 @@ import { zCreateReviewTrpcInput } from "@bookkey/backend/src/router/reviews/crea
 import { ActionButton, Button } from "../../shared/Button";
 import { Alert } from "../../shared/Alert";
 import { trpc } from "../../../lib/trpc";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Segment } from "../../shared/Segment/segment";
 import css from './index.module.scss';
 import { zUpdateReviewTrpcInput } from "@bookkey/backend/src/router/reviews/updateReview/input";
@@ -144,7 +144,7 @@ export const NewReview = (props: any) => {
         return review.userId === me?.id;
     }
 
-     // Change initial value for forms on userId and bookId once getting results from trpc call
+    // Change initial value for forms on userId and bookId once getting results from trpc call
     useEffect(() => {
         if (props.bookResult.id) {
             formikCreate.formik.setFieldValue("bookId", props.bookResult.id)
@@ -165,7 +165,15 @@ export const NewReview = (props: any) => {
         setIsEditing(true);
         setEditOrCreate('Edit Review');
         formikEdit.formik.setValues({...review})
-    }
+    };
+
+    // Calculate average score. If no reviews, avgScore is 0
+    // Memoize avgScore to avoid unnecessary recalculations
+    const avgScore = useMemo(() => {
+        if (reviews.length === 0) return 0;
+        const total = reviews.reduce((sum, review) => sum + review.score, 0);
+        return total / reviews.length;
+    }, [reviews]);
 
     const AllReviews = reviews?.map((review) => {
         return (
@@ -216,6 +224,13 @@ export const NewReview = (props: any) => {
         )
     })
 
+    // Whenever avgScore changes, call handleSetAvgScore to update parent component
+    useEffect(() => {
+        props.handleSetAvgScore(avgScore);
+    }, [avgScore]);
+
+    // Check if the current user has already made a review for this book
+    // Disable the form if reviewCurrUserExists is true
     const checkReviewByUserExists = () => {
         return reviewResults.data?.reviews.some((review) => {
             return (review.userId === me?.id)

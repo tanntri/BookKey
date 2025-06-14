@@ -416,7 +416,7 @@ export const AllBooksPages = () => {
                                                 <Link className={css.bookLink} to={getViewBookRoute({ olid: book.key.split("/")[2] })}>{book.title}</Link>
                                             }
                                             score={book.avgScore}
-                                            description={type === 'works' ? getAuthorNames({type: type, authors: book.authors}) : getAuthorNames({type: type, authors: book.author_name})  }>
+                                            description={getAuthorNames({type: type, authors: book.authors})  }>
                                         </Segment>
                                     </div>
                                 ))
