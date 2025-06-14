@@ -26,6 +26,23 @@
     margin-right: auto;
 }
 
+.stars {
+    font-size: 18px;
+    color: var.$yellow; 
+    display: flex;
+    gap: 2px;
+    width: fit-content;
+    margin: 0 auto 12px auto;
+  
+    .filledStar {
+        color: var.$yellow;
+    }
+  
+    .emptyStar {
+        color: #ccc;
+    }
+}
+
 .likes {
     text-align: center;
 

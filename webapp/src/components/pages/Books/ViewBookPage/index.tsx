@@ -9,6 +9,7 @@ import { TrpcRouterOutput } from "@bookkey/backend/src/router";
 import css from './index.module.scss';
 import { FaRegBookmark, FaBookmark, FaCheckCircle, FaRegCheckCircle, FaEye, FaRegEye } from 'react-icons/fa';
 import { Tooltip } from "react-tooltip";
+import { Icon } from "../../../shared/Icons";
 
 type BookDescription = {
     type: string,
@@ -230,8 +231,15 @@ export const ViewBookPage = withPageWrapper({
 (({ book, me }) => {
     useEffect(() => {
         document.title = `${book.title} -- BookKey`
-    }, [])
+    }, []);
+
+    const [avgScore, setAvgScore] = useState<number>(0);
     const description = getDescription(book.description);
+
+    const handleSetAvgScore = (newAvg: number) => {
+        setAvgScore(newAvg);
+    }
+
     return (
         <Segment key={book.id} 
             title={<div className={css.pageTitle}>
@@ -254,6 +262,17 @@ export const ViewBookPage = withPageWrapper({
             )}
 
             <div className={css.authors}>{`Authors: ${book.author ? book.author : 'Not Available'}`}</div>
+            <div className={css.stars}>
+                {[...Array(5)].map((_, i) => (
+                    <Icon
+                        key={i}
+                        name="star"
+                        className={css.starIcon}
+                        style={{ color: i < avgScore ? 'var(--yellow)' : '#ccc' }}
+                        size={20}                              
+                    />))
+                }
+            </div>
             <div className={css.description}>{description ? description : 'Description not available'}</div>
 
             {me && (
@@ -263,7 +282,7 @@ export const ViewBookPage = withPageWrapper({
                 </div>
             )}
 
-            {book && <NewReview bookResult={book} />}
+            {book && <NewReview bookResult={book} handleSetAvgScore={handleSetAvgScore} />}
         </Segment>
     )
 })
