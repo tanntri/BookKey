@@ -1,5 +1,3 @@
-// TODO: Make TRPC calls separately for each tab
-
 import { withPageWrapper } from "../../../../lib/pageWrapper";
 import { getProfileRoute } from "../../../../lib/routes";
 import { Segment } from "../../../shared/Segment/segment";
@@ -7,11 +5,7 @@ import css from "./index.module.scss";
 import { getAvatarUrl } from "@bookkey/shared/src/cloudinary";
 import { trpc } from "../../../../lib/trpc";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from "react-router-dom";
-import { getViewBookRoute } from "../../../../lib/routes";
 import { RES } from "@bookkey/shared/src/constants";
-import { Icon } from "../../../shared/Icons";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Suspense } from "react";
 import { lazy } from "react";
 
@@ -27,12 +21,11 @@ export const getCoverImage = (title: string, coverId?: string) => {
     );
 };
 
-
-
 export const ProfilePage = withPageWrapper({
     useQuery: () => {
         const { userId } = getProfileRoute.useParams();
         // return trpc.getBookmarks.useQuery({userId})
+        // Not using me because we want to be able to view other people's profiles
         const profileInfo = trpc.getUserProfile.useQuery(
             {userId},
             {
@@ -58,118 +51,7 @@ export const ProfilePage = withPageWrapper({
     const BookmarksTab = lazy(() => import('./BookmarksTab').then(module => ({ default: module.BookmarksTab })));
     const BooksReadTab = lazy(() => import('./BooksReadTab').then(module => ({ default: module.BooksReadTab })));
     const UserReviewsTab = lazy(() => import('./ReviewsTab').then(module => ({ default: module.UserReviewsTab })));
-    // const allBookmark = profileInfo.booksMarked?.map((bookmark: any) => {
-    //     return (
-    //         <div className={css.book} key={bookmark.key} onMouseLeave={() => {}}>
-    //             {getCoverImage(bookmark.title, bookmark.cover)}
-    //             <Segment
-    //                 size={2}
-    //                 title={
-    //                     <Link className={css.bookLink} to={getViewBookRoute({ olid: bookmark.id })}>{bookmark.title}</Link>
-    //                 }
-    //                 score={bookmark.avgScore}
-    //                 // description={`${RES.common.authors}: ${bookmark.author}`}>
-    //                 >
-    //             </Segment>
-    //         </div>
-    //     );
-    // });
-
-    // const allBooksRead = profileInfo.booksRead?.map((bookRead: any) => {
-    //     return (
-    //         <div className={css.book} key={bookRead.key} onMouseLeave={() => {}}>
-    //             {getCoverImage(bookRead.title, bookRead.cover)}
-    //             <Segment
-    //                 size={2}
-    //                 title={
-    //                     <Link className={css.bookLink} to={getViewBookRoute({ olid: bookRead.id })}>{bookRead.title}</Link>
-    //                 }
-    //                 score={bookRead.avgScore}
-    //                 // description={`${RES.common.authors}: ${bookRead.author}`}>
-    //                 >
-    //             </Segment>
-    //         </div>
-    //     );
-    // });
-
-    // const allBooksPossessed = profileInfo.booksPossessed?.map((bookPossessed: any) => {
-    //     return (
-    //         <div className={css.book} key={bookPossessed.key} onMouseLeave={() => {}}>
-    //             {getCoverImage(bookPossessed.title, bookPossessed.cover)}
-    //             <Segment
-    //                 size={2}
-    //                 title={
-    //                     <Link className={css.bookLink} to={getViewBookRoute({ olid: bookPossessed.id })}>{bookPossessed.title}</Link>
-    //                 }
-    //                 score={bookPossessed.avgScore}
-    //                 // description={`Authors: ${bookPossessed.author}`}>
-    //                 >
-    //             </Segment>
-    //         </div>
-    //     );
-    // });
-
-    // const userReviews = profileInfo.booksReviewed?.map((bookReview: any) => {
-    //     return (
-    //         <div className={css.review} key={bookReview.review.id} onMouseLeave={() => {}}>
-    //             {getCoverImage(bookReview.book.title, bookReview.book.cover)}
-    //             <Segment
-    //                 size={2}
-    //                 title={
-    //                     <Link className={css.bookLink} to={getViewBookRoute({ olid: bookReview.book.id })}>{bookReview.book.title}</Link>
-    //                 }>
-    //                 <h2 className={css.reviewTitle}>{bookReview.review.title}</h2>
-    //                 <div className={css.stars}>
-    //                     {[...Array(5)].map((_, i) => (
-    //                         <Icon
-    //                             key={i}
-    //                             name="star"
-    //                             className={`${i < bookReview.review.score ? css.filledStar : css.emptyStar}`}
-    //                             size={20} />
-    //                         ))}
-    //                 </div>
-    //                 <p>{bookReview.review.text}</p>
-    //             </Segment>
-    //         </div>
-    //     );
-    // });
-
-    // const booksStats = (
-    //         <div>
-    //             <h3 className={css.chartTitle}>{RES.profile.booksStatistics}</h3>
-    //             <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
-    //                 <LineChart
-    //                     width={500}
-    //                     height={300}
-    //                     data={profileInfo.bookStats}
-    //                     margin={{
-    //                         top: 5,
-    //                         right: 30,
-    //                         left: 20,
-    //                         bottom: 5,
-    //                     }}>
-    //                     <CartesianGrid strokeDasharray="3 3" />
-    //                     <XAxis dataKey="name" />
-    //                     <YAxis />
-    //                     <Tooltip />
-    //                     <Legend />
-    //                     <Line type="monotone" dataKey="library" stroke="#8884d8" activeDot={{ r: 8 }} />
-    //                     <Line type="monotone" dataKey="bookRead" stroke="#82ca9d" />
-    //                 </LineChart>
-    //             </ResponsiveContainer>
-    //             <ResponsiveContainer width="100%" aspect={3} className={css.responsiveContainer}>
-    //                 <BarChart width={730} height={250} data={profileInfo.bookStats}>
-    //                     <CartesianGrid strokeDasharray="3 3" />
-    //                     <XAxis dataKey="name" />
-    //                     <YAxis />
-    //                     <Tooltip />
-    //                     <Legend />
-    //                     <Bar dataKey="library" fill="#8884d8" />
-    //                     <Bar dataKey="bookRead" fill="#82ca9d" />
-    //                 </BarChart>
-    //             </ResponsiveContainer>
-    //         </div>
-    //     )
+    const AnalyticsTab = lazy(() => import('./AnalyticsTab').then(module => ({ default: module.AnalyticsTab })));
 
     return (
         <Segment title={profileInfo.userInfo?.username}>
@@ -182,7 +64,7 @@ export const ProfilePage = withPageWrapper({
                     <TabList>
                         <Tab>{RES.profile.books}</Tab>
                         <Tab>{RES.profile.reviews}</Tab>
-                        {/* {me?.username === profileInfo.userInfo?.username ?  <Tab>{RES.profile.analytics}</Tab> : null} */}
+                        {me?.username === profileInfo.userInfo?.username ?  <Tab>{RES.profile.analytics}</Tab> : null}
                     </TabList>
                     <TabPanel>
                         <Tabs>
@@ -213,11 +95,11 @@ export const ProfilePage = withPageWrapper({
                             <UserReviewsTab userId={profileInfo.userInfo?.id!} />
                         </Suspense>
                     </TabPanel>
-                    {/* <TabPanel>
-                        <div className={css.chartContainer}>
-                            {booksStats}
-                        </div>
-                    </TabPanel> */}
+                    <TabPanel>
+                        <Suspense>
+                            <AnalyticsTab userId={profileInfo.userInfo?.id!} />
+                        </Suspense>
+                    </TabPanel>
                 </Tabs>
             </div>
         </Segment>
