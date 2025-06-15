@@ -23,6 +23,8 @@ import { getBooksReadTrpcRoute } from "./books/getBooksRead";
 import { getUserProfileTrpcRoute } from "./auth/getUserProfileData";
 import { setLibraryTrpcRoute } from "./books/setLibrary";
 import { getLibraryTrpcRoute } from "./books/getLibrary";
+import { getReviewsByUserTrpcRoute } from "./reviews/getReviewsByUser";
+import { getAnalyticsTrpcRoute } from "./books/getAnalytics";
 
 export const trpcRouter = trpc.router({
     getBooks: getBooksTrpcRoute,
@@ -47,7 +49,9 @@ export const trpcRouter = trpc.router({
     getBooksRead: getBooksReadTrpcRoute,
     getUserProfile: getUserProfileTrpcRoute,
     setLibrary: setLibraryTrpcRoute,
-    getLibrary: getLibraryTrpcRoute
+    getLibrary: getLibraryTrpcRoute,
+    getReviewsByUser: getReviewsByUserTrpcRoute,
+    getAnalytics: getAnalyticsTrpcRoute
 });
 
 export type TrpcRouter = typeof trpcRouter;
