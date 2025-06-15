@@ -35,7 +35,7 @@ const General = ({me}: {me: NonNullable<TrpcRouterOutput['getMe']['me']>}) => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormItems>
-                <Input label="Username" name="username" formik={formik} />
+                <Input label={RES.editProfile.userName} name="username" formik={formik} />
                 <UploadToCloudinary label="Avatar" name="avatar" type="avatar" formik={formik} preset="large" />
             </FormItems>
             <Alert {...alertProps} />
@@ -67,9 +67,9 @@ const Password = () => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormItems>
-                <Input label="Old Password" name="oldPassword" formik={formik} />
-                <Input label="New Password" name="newPassword" formik={formik} />
-                <Input label="Confirm New Password" name="newPasswordConfirm" formik={formik} />
+                <Input label={RES.editProfile.oldPassword} name="oldPassword" formik={formik} />
+                <Input label={RES.editProfile.newPassword} name="newPassword" formik={formik} />
+                <Input label={RES.editProfile.confirmNewPassword} name="newPasswordConfirm" formik={formik} />
             </FormItems>
             <Alert {...alertProps} />
             <Button {...buttonProps}>{RES.editProfile.updatePassword}</Button>
@@ -89,13 +89,13 @@ export const EditProfilePage = withPageWrapper({
     return (
         <>
             <Helmet>
-                <title>Edit Profile - BookKey</title>
+                <title>{RES.editProfile.editProfile} -- {RES.common.bookkey}</title>
             </Helmet>
-            <Segment title="Edit Profile">
-                <Segment title="General" size={2}>
+            <Segment title={RES.editProfile.editProfile}>
+                <Segment title={RES.editProfile.general} size={2}>
                     <General me={me} />
                 </Segment>
-                <Segment title="Password" size={2}>
+                <Segment title={RES.editProfile.password} size={2}>
                     <Password />
                 </Segment>
             </Segment>
