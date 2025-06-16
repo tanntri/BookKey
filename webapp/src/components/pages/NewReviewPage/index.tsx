@@ -23,16 +23,13 @@ const LikeButton = ({review}: {review: NonNullable<TrpcRouterOutput['getReview']
     const trpcUtils = trpc.useUtils();
     const setReviewLike = trpc.setReviewLike.useMutation({
         onMutate: ({ likedByCurrUser }) => {
-            // const prevGetReviewData = trpc.getReview.useQuery({ id: review.id! })
-            // console.log(prevGetReviewData)
             if (prevGetReviewData.data!.review) {
                 const newGetReviewData = {
                     ...prevGetReviewData.data!.review,
                     review: {
                         ...prevGetReviewData.data!.review,
                         likedByCurrUser,
-                        // likesCount: prevGetReviewData.review.likesCount + (likedByCurrUser ? 1 : -1)
-                        likesCount: prevGetReviewData.data!.review.likesCount
+                        likesCount: prevGetReviewData.data!.review.likesCount + (likedByCurrUser ? 1 : -1)
                     }
                 }
                 trpcUtils.getReview.setData({ id: review.id! }, newGetReviewData)
@@ -84,9 +81,16 @@ export const NewReview = (props: any) => {
     console.log(me)
     const createReview = trpc.createReview.useMutation();
     const updateReview = trpc.editReview.useMutation();
-    const reviewResults = trpc.getReviews.useQuery({bookId: props.bookResult.id!}, {enabled: !!props.bookResult.id})
-    const [reviews, setReviews] = useState<TrpcRouterOutput['getReviews']['reviews']>([]);
-    const [reviewCurrUserExists, setReviewCurrUserExists] = useState(false);
+    const reviewResults = trpc.getReviews.useQuery(
+        {bookId: props.bookResult.id!},
+        {
+            enabled: !!props.bookResult.id, // only run if bookId exists
+            staleTime: 1000 * 60 * 5, // 5 minutes: data stays fresh
+            cacheTime: 1000 * 60 * 10, // 10 minutes: keeps it in memory
+            refetchOnWindowFocus: false, // avoid refetching every time user switches tab
+        },
+    )
+    const reviews = reviewResults.data?.reviews ?? [];
     const [editOrCreate, setEditOrCreate] = useState('Create Review');
     const [isEditing, setIsEditing] = useState(false);
     const [reviewByCurrUserId, setReviewByCurrUserId] = useState('');
@@ -144,24 +148,24 @@ export const NewReview = (props: any) => {
         return review.userId === me?.id;
     }
 
+    // Check if review by current user exists to disable create review form if true
+    // Memoize the result to avoid unnecessary recalculations
+    const reviewCurrUserExists = useMemo(() => {
+        return reviews.some((review) => {
+            return review.userId === me?.id
+        });
+    }, [reviews, me?.id]);
+      
+
     // Change initial value for forms on userId and bookId once getting results from trpc call
     useEffect(() => {
         if (props.bookResult.id) {
             formikCreate.formik.setFieldValue("bookId", props.bookResult.id)
         }}, [props.bookResult])
     
-    useEffect(() => {
-        if (reviewResults.data) {
-            setReviews(reviewResults.data.reviews)
-            setReviewCurrUserExists(() => {
-                return checkReviewByUserExists() || false;
-            })
-        }
-    }, [reviewResults.data?.reviews])
-
     const editReview = (review: any) => {
         setReviewByCurrUserId(review.id);
-        setReviewCurrUserExists(false);
+        // setReviewCurrUserExists(false);
         setIsEditing(true);
         setEditOrCreate('Edit Review');
         formikEdit.formik.setValues({...review})
@@ -228,14 +232,6 @@ export const NewReview = (props: any) => {
     useEffect(() => {
         props.handleSetAvgScore(avgScore);
     }, [avgScore]);
-
-    // Check if the current user has already made a review for this book
-    // Disable the form if reviewCurrUserExists is true
-    const checkReviewByUserExists = () => {
-        return reviewResults.data?.reviews.some((review) => {
-            return (review.userId === me?.id)
-        })
-    }
     
     return (
         <div className={css.wholeReview}>
