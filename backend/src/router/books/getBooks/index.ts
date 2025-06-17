@@ -4,6 +4,7 @@ import { zGetBooksTrpcInput } from './input';
 import axios, { AxiosResponse } from 'axios';
 import { AppContext } from '../../../lib/ctx';
 
+// Define the Book interface based on the API response structure
 export interface Book {
     author_key: string[];
     author_name: string[];
@@ -40,6 +41,66 @@ const getBookSearch = async(searchText: string, limit: number, offset: number) =
     return response;
 }
 
+// function to get boolean map of book ids for bookmark, bookRead, library
+const getBooleanBookMap = async (
+    ctx: AppContext,
+    model: 'bookmark' | 'bookRead' | 'library',
+    bookIds: string[],
+    userId: string
+    ): Promise<Record<string, boolean>> => {
+    let data: { bookId: string }[] = [];
+  
+    // Fetch data based on the model
+    switch (model) {
+        case 'bookmark':
+            data = await ctx.prisma.bookmark.findMany({
+                where: { 
+                    userId, 
+                    bookId: { 
+                        in: bookIds 
+                    }
+                },
+                select: { 
+                    bookId: true 
+                },
+            });
+            break;
+        case 'bookRead':
+            data = await ctx.prisma.bookRead.findMany({
+                where: { 
+                    userId, 
+                    bookId: { 
+                        in: bookIds 
+                    } 
+                },
+                select: { 
+                    bookId: true 
+                },
+            });
+            break;
+        case 'library':
+            data = await ctx.prisma.library.findMany({
+                where: { 
+                    userId, 
+                    bookId: { 
+                        in: bookIds 
+                    }
+                },
+                select: { 
+                    bookId: true 
+                },
+            });
+            break;
+    }
+  
+    return bookIds.reduce((acc, id) => {
+        acc[id] = data.some((item) => item.bookId === id);
+        return acc;
+    }, {} as Record<string, boolean>);
+};
+  
+  
+
 // function to get review scores of the given book id.
 const getReviewScores = async (ctx: AppContext, bookIds: string[]) => {
     const reviews = await ctx.prisma.review.findMany({
@@ -61,85 +122,6 @@ const getReviewScores = async (ctx: AppContext, bookIds: string[]) => {
     }
 
     return reviewMap;
-}
-
-// function to get bookmark status of fetched books to be displayed. Purpose is to show
-// state of bookmark button
-const getBookmark = async (ctx: AppContext, bookIds: string[], userId: string) => {
-    const bookmarks = await ctx.prisma.bookmark.findMany({
-        where: {
-            userId: userId,     // only bookmarks by the current user
-            bookId: {
-                in: bookIds,    // only for books in the input list
-            },
-        },
-        select: {
-            bookId: true,
-        },
-    });
-
-    const bookmarkMap: Record<string, boolean> = {};
-    for (const bookId of bookIds) {
-        bookmarkMap[bookId] = false;    // default to not bookmarked
-    }
-
-    for (const bookmark of bookmarks) {
-        bookmarkMap[bookmark.bookId] = true;    // mark as bookmarked
-    }
-
-    return bookmarkMap;
-}
-
-// function to get book read status of fetched books to be displayed. Purpose is to show
-// state of book read button
-const getBooksRead = async (ctx: AppContext, bookIds: string[], userId: string) => {
-    const booksRead = await ctx.prisma.bookRead.findMany({
-        where: {
-            userId: userId,     // only bookmarks by the current user
-            bookId: {
-                in: bookIds,    // only for books in the input list
-            },
-        },
-        select: {
-            bookId: true,
-        },
-    });
-
-    const bookReadMap: Record<string, boolean> = {};
-    for (const bookId of bookIds) {
-        bookReadMap[bookId] = false;    // default to not bookmarked
-    }
-
-    for (const bookRead of booksRead) {
-        bookReadMap[bookRead.bookId] = true;    // mark as bookmarked
-    }
-
-    return bookReadMap;
-}
-
-const getBooksPossessed = async (ctx: AppContext, bookIds: string[], userId: string) => {
-    const booksPossessed = await ctx.prisma.library.findMany({
-        where: {
-            userId: userId,     // only bookmarks by the current user
-            bookId: {
-                in: bookIds,    // only for books in the input list
-            },
-        },
-        select: {
-            bookId: true,
-        },
-    });
-
-    const libraryMap: Record<string, boolean> = {};
-    for (const bookId of bookIds) {
-        libraryMap[bookId] = false;    // default to not bookmarked
-    }
-
-    for (const bookPossessed of booksPossessed) {
-        libraryMap[bookPossessed.bookId] = true;    // mark as bookmarked
-    }
-
-    return libraryMap;
 }
 
 // extract book id from key in response
@@ -164,14 +146,15 @@ export const getBooksTrpcRoute = trpcLoggedProcedure.input(zGetBooksTrpcInput).q
         
         let rawBooks: AxiosResponse<any>;
         
+        // if search term is present, fetch from search endpoint, else fetch from category endpoint
         if (search && search.length > 0) {
             rawBooks = await getBookSearch(search, limit, offset)
             let books = rawBooks.data.docs;
             const ids = books.map((book: Book) => extractBookId(book.key));
             const reviews = await getReviewScores(ctx, ids);
-            const bookmarks = ctx.me ? await getBookmark(ctx, ids, ctx.me.id) : undefined;
-            const booksRead = ctx.me ? await getBooksRead(ctx, ids, ctx.me.id) : undefined;
-            const booksPossessed = ctx.me ? await getBooksPossessed(ctx, ids, ctx.me.id) : undefined;
+            const bookmarks = ctx.me ? await getBooleanBookMap(ctx, 'bookmark', ids, ctx.me.id) : undefined;
+            const booksRead = ctx.me ? await getBooleanBookMap(ctx, 'bookRead', ids, ctx.me.id) : undefined;
+            const booksPossessed = ctx.me ? await getBooleanBookMap(ctx, 'library', ids, ctx.me.id) : undefined;
             books = constructBooksData(books, reviews, bookmarks, booksRead, booksPossessed)
             return {
                 books: books,
@@ -183,9 +166,9 @@ export const getBooksTrpcRoute = trpcLoggedProcedure.input(zGetBooksTrpcInput).q
             let books = rawBooks.data.works;
             const ids = books.map((book: Book) => extractBookId(book.key));
             const reviews = await getReviewScores(ctx, ids);
-            const bookmarks = ctx.me ? await getBookmark(ctx, ids, ctx.me.id) : undefined;
-            const booksRead = ctx.me ? await getBooksRead(ctx, ids, ctx.me.id) : undefined;
-            const booksPossessed = ctx.me ? await getBooksPossessed(ctx, ids, ctx.me.id) : undefined;
+            const bookmarks = ctx.me ? await getBooleanBookMap(ctx, 'bookmark', ids, ctx.me.id) : undefined;
+            const booksRead = ctx.me ? await getBooleanBookMap(ctx, 'bookRead', ids, ctx.me.id) : undefined;
+            const booksPossessed = ctx.me ? await getBooleanBookMap(ctx, 'library', ids, ctx.me.id) : undefined;
             books = constructBooksData(books, reviews, bookmarks, booksRead, booksPossessed)
             return {
                 books: books,
