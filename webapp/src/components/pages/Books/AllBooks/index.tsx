@@ -19,44 +19,8 @@ import { RES } from '@bookkey/shared/src/constants';
 import { getViewBookRoute } from '../../../../lib/routes';
 import { Tooltip }from 'react-tooltip'
 import { useMe } from '../../../../lib/ctx';
-
-type OpenLibraryWorksAuthorResponse = {
-    key: string,
-    name: string
-}
-
-const getAuthorNames = ({type, authors}: {type: string, authors: string[] | OpenLibraryWorksAuthorResponse[]}) => {
-    // openlibrary api search uses 'docs' for books
-    if (type === 'docs') {
-        const authorNameJoined = authors ? authors.join(", ") : "None";
-        const authorName = authorNameJoined.length > 100 ? authorNameJoined.slice(0, 97) + '...' : authorNameJoined;
-        return authors ? `Authors: ${authorName}` : 'Authors: None';
-    // openlibrary api category uses 'works' for books
-    } else if (type === 'works') {
-        if (!authors) {
-            return undefined;
-        }
-        const getNames = authors.map((author: any) => {
-            return author.name;
-        })
-        const authorNameJoined = getNames ? getNames.join(", ") : 'None';
-        const authorName = authorNameJoined.length > 100 ? authorNameJoined.slice(0, 97) + '...' : authorNameJoined;
-        return `Authors: ${authorName}`
-    }
-    return undefined;
-}
-
-const getCoverImage = (title: string, coverId?: string) => {
-    return (
-      <div className={css.cover}>
-        {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} loading='lazy' />
-        ) : (
-          <span>{title}</span>
-        )}
-      </div>
-    );
-  };
+import { CoverImage } from '../../../shared/CoverImage';
+import { getAuthorNames } from '../../../../utils/utils';
 
 const ActionButtons = ({ book, category, search, userId }: { 
         book: TrpcRouterOutput['getBooks']['books'][number], 
@@ -408,7 +372,7 @@ export const AllBooksPages = () => {
                                 .map((book) => (
                                     <div className={css.book} key={book.key} onMouseLeave={() => {}}>
                                         {me && <ActionButtons book={book} category={category} search={debounceSearch} userId={me.id} />}
-                                        {getCoverImage(book.title, book.cover_id || book.cover_i)}
+                                        {<CoverImage title={book.title as string} coverId={(book.cover_id || book.cover_i) as string} />}
                                         <Segment
                                             size={2}
                                             title={
