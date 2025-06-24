@@ -101,86 +101,16 @@
       color: #555;
     }
 
-    .bookmarkBtn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: transparent;
-        border: none;
-        display: none;         /* hidden by default */
-        cursor: pointer;
-    
-        .iconOutline,
-        .iconFilled {
-          font-size: 20px;
-          color: #555;
-          transition: color 0.2s ease;
-        }
-    
-        .iconFilled {
-          color: #facc15;      /* yellow when saved */
-        }
+    .actionButtons {
+      display: none;  
     }
 
-    .bookReadBtn {
-      position: absolute;
-      top: 40px;
-      right: 10px;
-      background: transparent;  // Button background
-      border: none;
-      display: none;
-      cursor: pointer;
-    
-      .iconOutline,
-      .iconFilled {
-        font-size: 20px;
-        color: #555; // Neutral gray
-        // background: transparent; // Prevent gray bg
-        transition: color 0.2s ease;
-      }
-    
-      .iconFilled {
-        color: #1E3A8A;
-      }
-    }
 
-    .libraryBtn {
-      position: absolute;
-      top: 70px;
-      right: 10px;
-      background: transparent;  // Button background
-      border: none;
-      display: none;
-      cursor: pointer;
-    
-      .iconOutline,
-      .iconFilled {
-        font-size: 20px;
-        color: #555; // Neutral gray
-        // background: transparent; // Prevent gray bg
-        transition: color 0.2s ease;
-      }
-    
-      .iconFilled {
-        color: #a855f7; // Purple
-      }
-    }
-    
-    
-
-    &:hover .bookmarkBtn {
-      display: block;        /* show on hover */
-    }
-
-    &:hover .bookReadBtn {
-      display: block;
-    }
-        
-    &:hover .libraryBtn {
-      display: block;
+    &:hover .actionButtons {
+      display: block; // Show action buttons on hover
     }
   }
-
+  
   .more {
     margin-top: 20px;
   }
