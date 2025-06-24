@@ -9,18 +9,6 @@ import { RES } from "@bookkey/shared/src/constants";
 import { Suspense } from "react";
 import { lazy } from "react";
 
-export const getCoverImage = (title: string, coverId?: string) => {
-    return (
-        <div className={css.cover}>
-            {coverId ? (
-                <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} />
-            ) : (
-                <span>{title}</span>
-            )}
-        </div>
-    );
-};
-
 export const ProfilePage = withPageWrapper({
     useQuery: () => {
         const { userId } = getProfileRoute.useParams();
