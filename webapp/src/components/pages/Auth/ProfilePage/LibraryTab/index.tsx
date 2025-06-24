@@ -3,7 +3,7 @@ import css from "../index.module.scss";
 import { trpc } from "../../../../../lib/trpc";
 import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../../lib/routes";
-import { getCoverImage } from "../index";
+import { CoverImage } from "../../../../shared/CoverImage";
 import { Loader } from "../../../../shared/Loader";
 
 export const LibraryTab = ({ userId }: { userId: string }) => {
@@ -27,7 +27,7 @@ export const LibraryTab = ({ userId }: { userId: string }) => {
         <div className={css.books}>
             {booksPossessedData.map((bookPossessed) => (
                 <div className={css.book} key={bookPossessed?.id} onMouseLeave={() => {}}>
-                    {getCoverImage(bookPossessed?.title, bookPossessed?.cover)}
+                    {<CoverImage title={bookPossessed?.title as string} coverId={bookPossessed?.cover as string} />}
                     <Segment
                         size={2}
                         title={
