@@ -5,18 +5,7 @@ import { Segment } from "../../../shared/Segment/segment";
 import css from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../lib/routes";
-
-const getCoverImage = (title: string, coverId?: string) => {
-    return (
-      <div className={css.cover}>
-        {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} loading="lazy" />
-        ) : (
-          <span>{title}</span>
-        )}
-      </div>
-    );
-  };
+import { CoverImage } from "../../../shared/CoverImage";
 
 export const BookMarkPage = withPageWrapper({
     useQuery: () => {
@@ -47,7 +36,7 @@ export const BookMarkPage = withPageWrapper({
                 <div className={css.books}>
                     {bookmarks.map((bookmark) => {
                         return (<div className={css.book} key={bookmark?.id} onMouseLeave={() => {}}>
-                        {getCoverImage(bookmark?.title, bookmark?.cover)}
+                        <CoverImage title={bookmark?.title as string} coverId={bookmark?.cover as string} />
                         <Segment
                             size={2}
                             title={

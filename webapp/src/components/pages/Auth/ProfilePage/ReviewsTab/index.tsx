@@ -3,7 +3,7 @@ import css from "../index.module.scss";
 import { trpc } from "../../../../../lib/trpc";
 import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../../lib/routes";
-import { getCoverImage } from "../index";
+import { CoverImage } from "../../../../shared/CoverImage";
 import { Icon } from "../../../../shared/Icons";
 import { Loader } from "../../../../shared/Loader";
 
@@ -28,7 +28,7 @@ export const UserReviewsTab = ({ userId }: { userId: string }) => {
         <div className={css.reviews}>
             {userReviewsData.map((bookReview) => (
                 <div className={css.review} key={bookReview?.id} onMouseLeave={() => {}}>
-                    {getCoverImage(bookReview?.book?.title, bookReview?.book?.cover)}
+                    {<CoverImage title={bookReview?.book?.title as string} coverId={bookReview?.book?.cover as string} />}
                     <Segment
                         size={2}
                         title={

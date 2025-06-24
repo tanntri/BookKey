@@ -5,18 +5,7 @@ import { Segment } from "../../../shared/Segment/segment";
 import css from "./index.module.scss";
 import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../lib/routes";
-
-const getCoverImage = (title: string, coverId?: string) => {
-    return (
-      <div className={css.cover}>
-        {coverId ? (
-          <img src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`} alt={`${title} cover`} loading="lazy" />
-        ) : (
-          <span>{title}</span>
-        )}
-      </div>
-    );
-  };
+import { CoverImage } from "../../../shared/CoverImage";
 
 export const BookReadPage = withPageWrapper({
     useQuery: () => {
@@ -32,7 +21,7 @@ export const BookReadPage = withPageWrapper({
         return booksRead;
     },
     setProps: ({ queryResult, ctx, checkExists }) => {
-        const booksRead = checkExists(queryResult?.data, 'Bookmarks empty');
+        const booksRead = checkExists(queryResult?.data, 'Books Read empty');
         const me = ctx.me;
         // just an example on the use of checkAccess
         // checkAccess(ctx.me?.id === book.id, 'Book not by current user')
@@ -47,7 +36,7 @@ export const BookReadPage = withPageWrapper({
                 <div className={css.books}>
                     {booksRead.map((bookRead) => {
                         return (<div className={css.book} key={bookRead?.id} onMouseLeave={() => {}}>
-                        {getCoverImage(bookRead?.title, bookRead?.cover)}
+                        <CoverImage title={bookRead?.title as string} coverId={bookRead?.cover as string} />
                         <Segment
                             size={2}
                             title={
