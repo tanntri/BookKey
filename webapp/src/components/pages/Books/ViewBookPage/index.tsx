@@ -3,7 +3,7 @@ import { trpc } from "../../../../lib/trpc";
 import { Segment } from "../../../shared/Segment/segment";
 import { NewReview } from "../../NewReviewPage";
 import { withPageWrapper } from "../../../../lib/pageWrapper";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { TrpcRouterOutput } from "@bookkey/backend/src/router";
 import css from './index.module.scss';
@@ -246,9 +246,9 @@ export const ViewBookPage = withPageWrapper({
                     <p>{book.title}</p>
                     {me && <div className={css.actionButtons}><ActionButtons book={book} userId={me?.id} /></div>}
                 </div>}>
-            <Helmet>
+            {/* <Helmet>
                 <title>{book.title} - BookKey</title>
-            </Helmet>
+            </Helmet> */}
 
             {book.cover ? (
                 <img

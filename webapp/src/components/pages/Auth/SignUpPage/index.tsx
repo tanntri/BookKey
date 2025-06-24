@@ -10,7 +10,7 @@ import { Button } from "../../../shared/Button";
 import { Alert } from "../../../shared/Alert";
 import Cookies from "js-cookie";
 import { withPageWrapper } from "../../../../lib/pageWrapper";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { zPasswordMustMatch, zStringMin } from "@bookkey/shared/src/zod";
 import { sentryCaptureException } from "../../../../lib/sentry";
 import { mixpanelAlias, mixpanelTrackSignup } from "../../../../lib/mixpanel";
@@ -60,9 +60,9 @@ export const SignUpPage = withPageWrapper({
     return (
         <Segment title="Sign Up">
             {/* for some reason helmet doesn't work */}
-            <Helmet>
+            {/* <Helmet>
                 <title>Sign Up - BookKey</title>
-            </Helmet>
+            </Helmet> */}
             <form onSubmit={(e) => {
                 e.preventDefault();
                 formik.handleSubmit();

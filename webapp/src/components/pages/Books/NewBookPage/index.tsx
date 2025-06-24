@@ -11,7 +11,7 @@ import { Button } from '../../../shared/Button/index';
 import { FormItems } from '../../../shared/FormItems';
 import { withPageWrapper } from '../../../../lib/pageWrapper'
 // import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async'
+// import { Helmet } from 'react-helmet-async'
 import { sentryCaptureException } from '../../../../lib/sentry';
 
 export const NewBookPage = withPageWrapper({
@@ -71,9 +71,9 @@ export const NewBookPage = withPageWrapper({
     return (
         <Segment title="New Book">
             {/* for some reason helmet doesn't work */}
-            <Helmet>
+            {/* <Helmet>
                 <title>New Book - BookKey</title>
-            </Helmet>
+            </Helmet> */}
             <form onSubmit={(e) => {
                 e.preventDefault();
                 formik.handleSubmit();

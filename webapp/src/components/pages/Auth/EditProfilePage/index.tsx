@@ -9,7 +9,7 @@ import { withPageWrapper } from "../../../../lib/pageWrapper";
 import { trpc } from "../../../../lib/trpc";
 import type { TrpcRouterOutput } from "@bookkey/backend/src/router";
 import { zUpdatePasswordTrpcInput } from "@bookkey/backend/src/router/auth/updatePassword/input";
-import { Helmet } from "react-helmet-async"
+// import { Helmet } from "react-helmet-async"
 import { useEffect } from "react";
 import { zPasswordMustMatch, zStringRequired } from "@bookkey/shared/src/zod";
 import { UploadToCloudinary } from "../../../shared/UploadPicToCloudinary";
@@ -88,9 +88,9 @@ export const EditProfilePage = withPageWrapper({
     }, [])
     return (
         <>
-            <Helmet>
+            {/* <Helmet>
                 <title>{RES.editProfile.editProfile} -- {RES.common.bookkey}</title>
-            </Helmet>
+            </Helmet> */}
             <Segment title={RES.editProfile.editProfile}>
                 <Segment title={RES.editProfile.general} size={2}>
                     <General me={me} />

@@ -10,7 +10,7 @@ import { useForm } from '../../../../lib/form';
 import { zGetBooksTrpcInput } from '@bookkey/backend/src/router/books/getBooks/input';
 import { Input } from '../../../shared/Input/Input';
 import { useDebounceValue } from 'usehooks-ts';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { DropdownButton } from '../../../shared/Dropdown';
 import { RES } from '@bookkey/shared/src/constants';
@@ -80,9 +80,9 @@ export const AllBooksPages = () => {
     return (
         <Segment title={category}>
             {/* for some reason helmet doesn't work */}
-            <Helmet>
+            {/* <Helmet>
                 <title>BookKey</title>
-            </Helmet>
+            </Helmet> */}
             <div className={css.searchBar}>
                 <Input maxWidth={"100%"} name="search" formik={formik} search={true} />
                 <DropdownButton onSelect={handleCategoryChange} optionsObject={RES.bookCategories} text="Categories" />

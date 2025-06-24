@@ -12,7 +12,7 @@ import { SignOutPage } from "./components/pages/Auth/SignOutPage";
 import { AppContextProvider } from "./lib/ctx";
 import { NotFoundPage } from "./components/shared/NotFound";
 import { EditProfilePage } from "./components/pages/Auth/EditProfilePage";
-import { HelmetProvider } from "react-helmet-async";
+// import { HelmetProvider } from "react-helmet-async";
 import { NonAuthRouteTracker } from "./components/shared/RouteNotAuth";
 import './lib/sentry';
 import { SentryUser } from "./lib/sentry";
@@ -27,7 +27,7 @@ import { LibraryPage } from "./components/pages/Books/LibraryPage";
 
 export const App = () => {
   return (
-    <HelmetProvider>
+    // <HelmetProvider>
       <TrpcProvider> 
         <AppContextProvider>
           <BrowserRouter>
@@ -56,6 +56,6 @@ export const App = () => {
           </BrowserRouter>
         </AppContextProvider>
       </TrpcProvider>
-    </HelmetProvider>
+    // </HelmetProvider>
   )
 }

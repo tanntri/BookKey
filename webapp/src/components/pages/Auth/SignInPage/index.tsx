@@ -8,7 +8,7 @@ import { Alert } from "../../../shared/Alert";
 import Cookies from "js-cookie";
 import { useForm } from "../../../../lib/form";
 import { withPageWrapper } from "../../../../lib/pageWrapper";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useEffect } from "react";
 import { mixpanelIdentify, mixpanelTrackSignin } from "../../../../lib/mixpanel";
 
@@ -42,9 +42,9 @@ export const SignInPage = withPageWrapper({
     return (
         <Segment title="Log in">
             {/* for some reason helmet doesn't work */}
-            <Helmet>
+            {/* <Helmet>
                 <title>Sign In - BookKey</title>
-            </Helmet>
+            </Helmet> */}
             <form onSubmit={(e) => {
                 e.preventDefault();
                 formik.handleSubmit();
