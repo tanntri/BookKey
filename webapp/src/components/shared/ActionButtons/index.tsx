@@ -19,8 +19,6 @@ export const ActionButtons = ({ book, category, search, userId }: ActionButtonsP
     const [isPossessed, setIsPossessed] = useState(book.possessedByCurrUser);
     const trpcUtils = trpc.useUtils();
 
-    console.log(isBookmarked, isRead, isPossessed);
-
     const setBookmark = trpc.setBookmark.useMutation({
         onMutate: async ({ savedByCurrUser }) => {
             // Optimistically update local state
