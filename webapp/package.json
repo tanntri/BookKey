@@ -46,7 +46,7 @@
     "react-router-dom": "^7.3.0",
     "react-tabs": "^6.1.0",
     "react-tooltip": "^5.28.1",
-    "recharts": "^2.15.3",
+    "recharts": "2.15.3",
     "reset-css": "^5.0.2",
     "rollup-plugin-visualizer": "^6.0.3",
     "sass": "^1.85.1",
