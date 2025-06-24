@@ -85,7 +85,8 @@ export const ProfilePage = withPageWrapper({
                     </TabPanel>
                     <TabPanel>
                         <Suspense>
-                            <AnalyticsTab userId={profileInfo.userInfo?.id!} />
+                            {/* <AnalyticsTab userId={profileInfo.userInfo?.id!} /> */}
+                            <AnalyticsTab />
                         </Suspense>
                     </TabPanel>
                 </Tabs>
