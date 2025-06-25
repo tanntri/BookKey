@@ -15,9 +15,9 @@ jobs:
           password: ${{secrets.HEROKU_API_KEY}}
       - name: Build and Push
         uses: docker/build-push-action@v4
-        no-cache: true
         with: 
           push: true
+          no-cache: true
           tags: registry.heroku.com/${{secrets.HEROKU_APP_NAME}}/web
           build-args: |
             SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}
