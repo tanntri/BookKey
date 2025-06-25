@@ -14,7 +14,7 @@
         "dcu": "dotenv -e ./.env.docker -e ./backend/.env -e ./webapp/.env -- bash -c 'docker compose up'",
         "dth": "docker tag bookkey-image-0 registry.heroku.com/bookkeyonline/web",
         "dph": "docker push registry.heroku.com/bookkeyonline/web",
-        "hr": "heroku container:release web -a bookkeyonline"
+        "hr": "heroku container:release web --no-cache -a bookkeyonline"
     },
     "devDependencies": {
         "@types/jest": "^29.5.14",
