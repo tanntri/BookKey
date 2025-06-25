@@ -4,7 +4,7 @@ import css from "../index.module.scss";
 import { trpc } from "../../../../../lib/trpc";
 import { Link } from "react-router-dom";
 import { getViewBookRoute } from "../../../../../lib/routes";
-import { getCoverImage } from "../index";
+import { CoverImage } from "../../../../shared/CoverImage";
 import { Loader } from "../../../../shared/Loader";
 
 export const BooksReadTab = ({ userId }: { userId: string }) => {
@@ -28,7 +28,7 @@ export const BooksReadTab = ({ userId }: { userId: string }) => {
         <div className={css.books}>
             {booksReadData.map((bookRead) => (
                 <div className={css.book} key={bookRead?.id} onMouseLeave={() => {}}>
-                    {getCoverImage(bookRead?.title, bookRead?.cover)}
+                    {<CoverImage title={bookRead?.title as string} coverId={bookRead?.cover as string} />}
                     <Segment
                         size={2}
                         title={
