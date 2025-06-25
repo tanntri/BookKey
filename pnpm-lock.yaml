@@ -300,11 +300,7 @@ importers:
         specifier: ^5.28.1
         version: 5.28.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       recharts:
-<<<<<<< HEAD
         specifier: ~2.15.3
-=======
-        specifier: 2.15.3
->>>>>>> fb3a419af52ddf05533076b158d25a1551be88ae
         version: 2.15.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       reset-css:
         specifier: ^5.0.2
