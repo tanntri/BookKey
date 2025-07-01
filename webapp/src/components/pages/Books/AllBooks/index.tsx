@@ -17,7 +17,7 @@ import { DropdownButton } from '../../../shared/Dropdown';
 import { TrpcRouterOutput } from '@bookkey/backend/src/router';
 import { RES } from '@bookkey/shared/src/constants';
 import { getViewBookRoute } from '../../../../lib/routes';
-import { Tooltip }from 'react-tooltip'
+import Tooltip from 'react-tooltip'
 import { useMe } from '../../../../lib/ctx';
 
 type OpenLibraryWorksAuthorResponse = {

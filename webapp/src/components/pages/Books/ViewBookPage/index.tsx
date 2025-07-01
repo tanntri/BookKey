@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { TrpcRouterOutput } from "@bookkey/backend/src/router";
 import css from './index.module.scss';
 import { FaRegBookmark, FaBookmark, FaCheckCircle, FaRegCheckCircle, FaEye, FaRegEye } from 'react-icons/fa';
-import { Tooltip } from "react-tooltip";
+import Tooltip from "react-tooltip";
 import { Icon } from "../../../shared/Icons";
 
 type BookDescription = {
