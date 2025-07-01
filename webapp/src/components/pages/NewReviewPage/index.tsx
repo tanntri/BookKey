@@ -16,7 +16,7 @@ import { canBlockContent } from "@bookkey/backend/src/utils/can";
 import { Icon } from "../../shared/Icons";
 import { getAvatarUrl } from "@bookkey/shared/src/cloudinary";
 import { mixpanelSetReviewLike } from "../../../lib/mixpanel";
-import { Tooltip } from "react-tooltip";
+import Tooltip from "react-tooltip";
 
 const LikeButton = ({review}: {review: NonNullable<TrpcRouterOutput['getReview']['review']>}) => {
     const prevGetReviewData = trpc.getReview.useQuery({ id: review.id! })
